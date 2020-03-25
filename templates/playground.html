@@ -1,0 +1,75 @@
+{% extends 'base.html' %}
+{% from 'bootstrap/nav.html' import render_nav_item %}
+
+{% block nav %}
+<h3 class="text-center">
+  Playground
+  <small class="text-muted">with brush</small>
+</h3>
+<div class="navbar-btn ml-auto">
+    <a class="btn btn-outline-primary" href="../LogIn" role="button">LogIn</button>
+    <a class="btn btn-primary" href="../SignUp" role="button">SignUp</a>
+</div>
+{% endblock %}
+
+{% block content %}
+<div class="page">
+    <div class="jumbotron">
+        <div class="row">
+            <div class="col-3">
+                <div class="row flex-column justify-content-around align-items-center">
+<!--                     <button id="board-btn" class="flex-grow-1 mb-5 display-4">Tools</button> -->
+                    <h3><span class="badge badge-pill badge-secondary ml-5" id="L">L</span></h3>
+                    <button id="board-btn" class="flex-grow-1 mt-5"></button>
+                    <div class="flex-grow-0 mt-5 img-btn-group">
+                        <img src="/static/src/pen.png" alt="pen" class="img-btn left" id="pen">
+                    </div>
+                    <div class="flex-grow-0 img-btn-group">
+                        <img src="/static/src/line.png" alt="line" class="img-btn mr-3 left" id="line">
+                        <img src="/static/src/circle.png" alt="circle" class="img-btn ml-3 left" id="circle">
+                    </div>
+                    <div class="flex-grow-0 img-btn-group">
+                        <img src="/static/src/eraser.png" alt="eraser" class="img-btn left" id="eraser">
+                    </div>
+                </div>
+            </div>
+            <div class="col-6" id="canvasContainer">
+                <canvas id="sketchpad"></canvas>
+            </div>
+            <div class="col-3 img-btn-group">
+                <div class="row flex-column justify-content-around align-items-center">
+                    <h3><span class="badge badge-pill badge-secondary mr-5" id="R">R</span></h3>
+                    <div class="flex-grow-0 mt-5 img-btn-group">
+                        <img src="/static/src/delete.png" alt="delete" class="img-btn right" id="delete">
+                    </div>
+                    <div class="flex-grow-0 img-btn-group">
+                        <img src="/static/src/undo.png" alt="undo" class="img-btn mr-3 right" id="undo">
+                        <img src="/static/src/redo.png" alt="redo" class="img-btn ml-3 right" id="redo">
+                    </div>
+                    <div class="flex-grow-0 img-btn-group">
+                        <img src="/static/src/download.png" alt="download" class="img-btn right" id="download">
+                    </div>
+                    <button id="board-btn" class="flex-grow-1 mt-5 mb-5"></button>
+                </div>
+            </div>
+        </div>
+        <hr class="my-4">
+        <p>It uses utility classes for typography and spacing to space content out within the larger container.</p>
+        <p class="lead">
+            <a class="btn btn-primary btn-lg" href="#" role="button">Learn more</a>
+        </p>
+    </div>
+</div>
+{% endblock %}
+
+
+{% block footer %}
+<li class="float-lg-right"><a href="../">Back to Home</a></li>
+{% endblock %}
+
+{% block scripts %}
+<script type="text/javascript" src="{{ url_for('static', filename='js/painting.js') }}"></script>
+{% endblock %}
+
+
+
