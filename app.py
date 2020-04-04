@@ -36,7 +36,7 @@ def playground_message(message):
     img = base64_to_image(message['data'][22:])
     model.set_edge(np.asarray(img))
     if(message['refresh']):
-        model.resample(message['id'])
+        model.resample(int(message['id']))
     result_fake, result_real, _, _, _ = model.forward()
     msg = {
         "id": message['id'],
@@ -49,10 +49,11 @@ def playground_message(message):
         "data_6": image_to_base64(result_fake[6]),
         "data_7": image_to_base64(result_fake[7]),
         "data_8": image_to_base64(result_fake[8]),
-        "data_9": image_to_base64(result_fake[9])
+        "data_9": image_to_base64(result_fake[9]),
+	"data_10": image_to_base64(result_fake[10]),
+        "data_11": image_to_base64(result_fake[11])
     }
     emit('my response', msg, namespace='/playground')
-    # emit('my response', {'data':image_to_base64(img)}, namespace='/playground')
 
 @socketio.on('connect', namespace='/playground')
 def playground_connect():

@@ -75,7 +75,7 @@ let Ops = {
     u++;
     if(cur > 1) {
       Ops.show(cur-1);
-      socket.emit('test', {data: cavHistory[cur-2]});
+      socket.emit('cav', {id: styleId, data: cavHistory[cur-2], refresh:false});
     }else {
       alert("Can't undo anymore.");
       u--;
@@ -85,7 +85,7 @@ let Ops = {
     r++;
     if(cur < cavHistory.length) {
       Ops.show(cur+1);
-      socket.emit('test', {data: cavHistory[cur]});
+      socket.emit('cav', {id: styleId, data: cavHistory[cur-2], refresh:false});
     }else {
       alert("It's the newest cavPic.");
       r--;
@@ -162,7 +162,7 @@ function start() {
     clearInterval(interval);
     interval = null;
   }
-  interval = setInterval(sendcav, 100);
+  interval = setInterval(sendcav, 500);
 }
 
 function stop() {
@@ -193,7 +193,7 @@ $(function(argument) {
   });                             // 建立新连接的回调函数
   socket.on('my response', function(msg) {
     let id = "";
-    for(let i=0; i<10; i++) {
+    for(let i=0; i<12; i++) {
       let str = 'data_' + i;
       id = msg['id'] + i.toString();
       let src = 'data:image/png;base64,'+ arrayBuffer2Base64(msg[str]);
@@ -214,5 +214,5 @@ $(function(argument) {
     styleId = this.id;
     refresh();
   });
-  $('#refresh').click(refresh());
+  $('#refresh').click(refresh);
 });
