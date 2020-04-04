@@ -85,7 +85,7 @@ let Ops = {
     r++;
     if(cur < cavHistory.length) {
       Ops.show(cur+1);
-      socket.emit('cav', {id: styleId, data: cavHistory[cur-2], refresh:false});
+      socket.emit('cav', {id: styleId, data: cavHistory[cur], refresh:false});
     }else {
       alert("It's the newest cavPic.");
       r--;
