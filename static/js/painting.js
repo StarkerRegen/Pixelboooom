@@ -1,12 +1,21 @@
-var ctx, cav;
+var ctx, cav;         // canvas
+var socket;           // websocket
+var interval = null;  // timer  
 let x = 0, y = 0;
 let u = 0, r = 0;
+let styleId = 0;      // style for icon
 let cavHistory = [];
 let CanvasAutoResize = {
   draw: function() {
     let canvasContainer = document.getElementById('canvasContainer');
-    ctx.canvas.width  = canvasContainer.offsetWidth;
-    ctx.canvas.height = ctx.canvas.width;
+    if(canvasContainer.offsetWidth < 512)
+      ctx.canvas.width  = canvasContainer.offsetWidth;
+    else
+      ctx.canvas.width = 512;
+    ctx.canvas.height = ctx.canvas.width; 
+    ctx.fillStyle="#FFFFFF";
+    ctx.fillRect(0, 0, cav.width, cav.height);
+    ctx.fillStyle="#000000";
     ctx.lineWidth = 6;
     ctx.lineCap = 'round';
     ctx.lineJoin = 'round';
@@ -55,7 +64,9 @@ let Tools = {
 
 let Ops = {
   delete: function(cur) {
-    ctx.clearRect(0, 0, cav.width,cav.height);
+    ctx.fillStyle="#FFFFFF";
+    ctx.fillRect(0, 0, cav.width, cav.height);
+    ctx.fillStyle="#000000";
     ctx.beginPath();
     cavHistory = [cav.toDataURL()];
     u = r = 0;
@@ -64,6 +75,7 @@ let Ops = {
     u++;
     if(cur > 1) {
       Ops.show(cur-1);
+      socket.emit('test', {data: cavHistory[cur-2]});
     }else {
       alert("Can't undo anymore.");
       u--;
@@ -73,6 +85,7 @@ let Ops = {
     r++;
     if(cur < cavHistory.length) {
       Ops.show(cur+1);
+      socket.emit('test', {data: cavHistory[cur]});
     }else {
       alert("It's the newest cavPic.");
       r--;
@@ -109,7 +122,6 @@ function Sketchpad() {
     $('span#L').text(state);      // 显示被按下的按钮
     $('#sketchpad').off();
     if($(this).hasClass('left')) {
-      $('#sketchpad').off();
       $('#sketchpad').mousedown(function(e) {
         x = e.offsetX;
         y = e.offsetY;
@@ -120,6 +132,7 @@ function Sketchpad() {
         ctx.moveTo(x, y);
         $(this).mousemove(function(e) {
           Tools[state](e, 0);
+          start();
         });
       });
       $('#sketchpad').mouseup(function(e) {
@@ -128,6 +141,7 @@ function Sketchpad() {
         $(this).off('mousemove');
       });
     }else {
+      stop();
       if(!e.isPropagationStopped()) {
         let cur = cavHistory.length-u+r;
         Ops[state](cur);
@@ -137,7 +151,55 @@ function Sketchpad() {
   });                           
 }
 
+function sendcav() {
+  console.log(styleId);
+  let imgURL = cav.toDataURL('image/png');
+  socket.emit('cav', {id: styleId, data: imgURL, refresh: false});
+}
+
+function start() {
+  if(interval != null) {
+    clearInterval(interval);
+    interval = null;
+  }
+  interval = setInterval(sendcav, 100);
+}
+
+function stop() {
+  clearInterval(interval);
+  interval = null;
+}
+
+function refresh() {
+  let imgURL = cav.toDataURL('image/png');
+  socket.emit('cav', {id: styleId, data: imgURL, refresh: true});
+}
+
+function arrayBuffer2Base64(buffer) {
+  let binary = '';
+  const bytes = new Uint8Array(buffer);
+  let len = bytes.byteLength;
+  for(let i=0; i<len; i++) {
+    binary += String.fromCharCode(bytes[i]);
+  }
+  return binary;
+}
+
 $(function(argument) {
+  namespace = '/playground';      
+  socket = io.connect("http://"+document.domain+":"+location.port+namespace);     // 连接Socket.IO server
+  socket.on('connect', function() {
+    console.log('connect!');
+  });                             // 建立新连接的回调函数
+  socket.on('my response', function(msg) {
+    let id = "";
+    for(let i=0; i<10; i++) {
+      let str = 'data_' + i;
+      id = msg['id'] + i.toString();
+      let src = 'data:image/png;base64,'+ arrayBuffer2Base64(msg[str]);
+      document.getElementById(id).src = src;
+    }
+  });                             // 处理服务器发送的消息
   cav = document.getElementById('sketchpad');
   if (cav.getContext){
     ctx = cav.getContext('2d');
@@ -146,5 +208,11 @@ $(function(argument) {
   }
   CanvasAutoResize.initialize();    // 画布大小自适应 
   cavHistory.push(cav.toDataURL());
+  socket.emit('cav', {id: styleId, data: cavHistory[0], refresh: true});
   Sketchpad();
+  $('.style-nav').click(function() {
+    styleId = this.id;
+    refresh();
+  });
+  $('#refresh').click(refresh());
 });

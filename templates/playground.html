@@ -18,7 +18,6 @@
         <div class="row">
             <div class="col-3">
                 <div class="row flex-column justify-content-around align-items-center">
-<!--                     <button id="board-btn" class="flex-grow-1 mb-5 display-4">Tools</button> -->
                     <h3><span class="badge badge-pill badge-secondary ml-5" id="L">L</span></h3>
                     <button id="board-btn" class="flex-grow-1 mt-5"></button>
                     <div class="flex-grow-0 mt-5 img-btn-group">
@@ -36,7 +35,7 @@
             <div class="col-6" id="canvasContainer">
                 <canvas id="sketchpad"></canvas>
             </div>
-            <div class="col-3 img-btn-group">
+            <div class="col-3">
                 <div class="row flex-column justify-content-around align-items-center">
                     <h3><span class="badge badge-pill badge-secondary mr-5" id="R">R</span></h3>
                     <div class="flex-grow-0 mt-5 img-btn-group">
@@ -54,10 +53,147 @@
             </div>
         </div>
         <hr class="my-4">
-        <p>It uses utility classes for typography and spacing to space content out within the larger container.</p>
-        <p class="lead">
-            <a class="btn btn-primary btn-lg" href="#" role="button">Learn more</a>
-        </p>
+        <ul class="nav nav-pills offset-2">
+            <li class="nav-item"><a class="nav-link active style-nav" data-toggle="tab" href="#Pretty" id="0">Pretty</a></li>
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" id="dropdownMenuLink" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Casual</a>
+                <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                    <a class="dropdown-item style-nav" data-toggle="tab" href="#Casual" id="1">casual</a>
+                    <a class="dropdown-item style-nav" data-toggle="tab" href="#CoolCasual" id="9">Cool casual</a>
+                </div>
+            </li>
+            <li class="nav-item"><a class="nav-link style-nav" data-toggle="tab" href="#Dynamic" id="2">Dynamic</a></li>
+            <li class="nav-item"><a class="nav-link style-nav" data-toggle="tab" href="#Gorgeous" id="3">Gorgeous</a></li>
+            <li class="nav-item"><a class="nav-link style-nav" data-toggle="tab" href="#Wild" id="4">Wild</a></li>
+            <li class="nav-item"><a class="nav-link style-nav" data-toggle="tab" href="#Natural" id="5">Natural</a></li>
+            <li class="nav-item"><a class="nav-link style-nav" data-toggle="tab" href="#Elegant" id="6">Elegant</a></li>
+            <li class="nav-item"><a class="nav-link style-nav" data-toggle="tab" href="#Dandy" id="7">Dandy</a></li>
+            <li class="nav-item"><a class="nav-link style-nav" data-toggle="tab" href="#Clear" id="8">Clear</a></li>
+        </ul>
+        <hr class="my-4">
+        <div class="tab-content offset-1">
+            <div class="tab-pane fade show active" id="Pretty">
+                <img src="{{ url_for('static', filename='src/background.png') }}" alt="..." class="img-thumbnail" id="00">
+                <img src="{{ url_for('static', filename='src/background.png') }}" alt="..." class="img-thumbnail" id="01">
+                <img src="{{ url_for('static', filename='src/background.png') }}" alt="..." class="img-thumbnail" id="02">
+                <img src="{{ url_for('static', filename='src/background.png') }}" alt="..." class="img-thumbnail" id="03">
+                <img src="{{ url_for('static', filename='src/background.png') }}" alt="..." class="img-thumbnail" id="04">
+                <img src="{{ url_for('static', filename='src/background.png') }}" alt="..." class="img-thumbnail" id="05">
+                <img src="{{ url_for('static', filename='src/background.png') }}" alt="..." class="img-thumbnail" id="06">
+                <img src="{{ url_for('static', filename='src/background.png') }}" alt="..." class="img-thumbnail" id="07">
+                <img src="{{ url_for('static', filename='src/background.png') }}" alt="..." class="img-thumbnail" id="08">
+                <img src="{{ url_for('static', filename='src/background.png') }}" alt="..." class="img-thumbnail" id="09">
+            </div>
+            <div class="tab-pane fade" id="Casual">
+                <img src="{{ url_for('static', filename='src/background.png') }}" alt="..." class="img-thumbnail" id="10">
+                <img src="{{ url_for('static', filename='src/background.png') }}" alt="..." class="img-thumbnail" id="11">
+                <img src="{{ url_for('static', filename='src/background.png') }}" alt="..." class="img-thumbnail" id="12">
+                <img src="{{ url_for('static', filename='src/background.png') }}" alt="..." class="img-thumbnail" id="13">
+                <img src="{{ url_for('static', filename='src/background.png') }}" alt="..." class="img-thumbnail" id="14">
+                <img src="{{ url_for('static', filename='src/background.png') }}" alt="..." class="img-thumbnail" id="15">
+                <img src="{{ url_for('static', filename='src/background.png') }}" alt="..." class="img-thumbnail" id="16">
+                <img src="{{ url_for('static', filename='src/background.png') }}" alt="..." class="img-thumbnail" id="17">
+                <img src="{{ url_for('static', filename='src/background.png') }}" alt="..." class="img-thumbnail" id="18">
+                <img src="{{ url_for('static', filename='src/background.png') }}" alt="..." class="img-thumbnail" id="19">
+            </div>
+            <div class="tab-pane fade" id="Dynamic">
+                <img src="{{ url_for('static', filename='src/background.png') }}" alt="..." class="img-thumbnail" id="20">
+                <img src="{{ url_for('static', filename='src/background.png') }}" alt="..." class="img-thumbnail" id="21">
+                <img src="{{ url_for('static', filename='src/background.png') }}" alt="..." class="img-thumbnail" id="22">
+                <img src="{{ url_for('static', filename='src/background.png') }}" alt="..." class="img-thumbnail" id="23">
+                <img src="{{ url_for('static', filename='src/background.png') }}" alt="..." class="img-thumbnail" id="24">
+                <img src="{{ url_for('static', filename='src/background.png') }}" alt="..." class="img-thumbnail" id="25">
+                <img src="{{ url_for('static', filename='src/background.png') }}" alt="..." class="img-thumbnail" id="26">
+                <img src="{{ url_for('static', filename='src/background.png') }}" alt="..." class="img-thumbnail" id="27">
+                <img src="{{ url_for('static', filename='src/background.png') }}" alt="..." class="img-thumbnail" id="28">
+                <img src="{{ url_for('static', filename='src/background.png') }}" alt="..." class="img-thumbnail" id="29">
+            </div>
+            <div class="tab-pane fade" id="Gorgeous">
+                <img src="{{ url_for('static', filename='src/background.png') }}" alt="..." class="img-thumbnail" id="30">
+                <img src="{{ url_for('static', filename='src/background.png') }}" alt="..." class="img-thumbnail" id="31">
+                <img src="{{ url_for('static', filename='src/background.png') }}" alt="..." class="img-thumbnail" id="32">
+                <img src="{{ url_for('static', filename='src/background.png') }}" alt="..." class="img-thumbnail" id="33">
+                <img src="{{ url_for('static', filename='src/background.png') }}" alt="..." class="img-thumbnail" id="34">
+                <img src="{{ url_for('static', filename='src/background.png') }}" alt="..." class="img-thumbnail" id="35">
+                <img src="{{ url_for('static', filename='src/background.png') }}" alt="..." class="img-thumbnail" id="36">
+                <img src="{{ url_for('static', filename='src/background.png') }}" alt="..." class="img-thumbnail" id="37">
+                <img src="{{ url_for('static', filename='src/background.png') }}" alt="..." class="img-thumbnail" id="38">
+                <img src="{{ url_for('static', filename='src/background.png') }}" alt="..." class="img-thumbnail" id="39">
+            </div>
+            <div class="tab-pane fade" id="Wild">
+                <img src="{{ url_for('static', filename='src/background.png') }}" alt="..." class="img-thumbnail" id="40">
+                <img src="{{ url_for('static', filename='src/background.png') }}" alt="..." class="img-thumbnail" id="41">
+                <img src="{{ url_for('static', filename='src/background.png') }}" alt="..." class="img-thumbnail" id="42">
+                <img src="{{ url_for('static', filename='src/background.png') }}" alt="..." class="img-thumbnail" id="43">
+                <img src="{{ url_for('static', filename='src/background.png') }}" alt="..." class="img-thumbnail" id="44">
+                <img src="{{ url_for('static', filename='src/background.png') }}" alt="..." class="img-thumbnail" id="45">
+                <img src="{{ url_for('static', filename='src/background.png') }}" alt="..." class="img-thumbnail" id="46">
+                <img src="{{ url_for('static', filename='src/background.png') }}" alt="..." class="img-thumbnail" id="47">
+                <img src="{{ url_for('static', filename='src/background.png') }}" alt="..." class="img-thumbnail" id="48">
+                <img src="{{ url_for('static', filename='src/background.png') }}" alt="..." class="img-thumbnail" id="49">
+            </div>
+            <div class="tab-pane fade" id="Natural">
+                <img src="{{ url_for('static', filename='src/background.png') }}" alt="..." class="img-thumbnail" id="50">
+                <img src="{{ url_for('static', filename='src/background.png') }}" alt="..." class="img-thumbnail" id="51">
+                <img src="{{ url_for('static', filename='src/background.png') }}" alt="..." class="img-thumbnail" id="52">
+                <img src="{{ url_for('static', filename='src/background.png') }}" alt="..." class="img-thumbnail" id="53">
+                <img src="{{ url_for('static', filename='src/background.png') }}" alt="..." class="img-thumbnail" id="54">
+                <img src="{{ url_for('static', filename='src/background.png') }}" alt="..." class="img-thumbnail" id="55">
+                <img src="{{ url_for('static', filename='src/background.png') }}" alt="..." class="img-thumbnail" id="56">
+                <img src="{{ url_for('static', filename='src/background.png') }}" alt="..." class="img-thumbnail" id="57">
+                <img src="{{ url_for('static', filename='src/background.png') }}" alt="..." class="img-thumbnail" id="58">
+                <img src="{{ url_for('static', filename='src/background.png') }}" alt="..." class="img-thumbnail" id="59">
+            </div>
+            <div class="tab-pane fade" id="Elegant">
+                <img src="{{ url_for('static', filename='src/background.png') }}" alt="..." class="img-thumbnail" id="60">
+                <img src="{{ url_for('static', filename='src/background.png') }}" alt="..." class="img-thumbnail" id="61">
+                <img src="{{ url_for('static', filename='src/background.png') }}" alt="..." class="img-thumbnail" id="62">
+                <img src="{{ url_for('static', filename='src/background.png') }}" alt="..." class="img-thumbnail" id="63">
+                <img src="{{ url_for('static', filename='src/background.png') }}" alt="..." class="img-thumbnail" id="64">
+                <img src="{{ url_for('static', filename='src/background.png') }}" alt="..." class="img-thumbnail" id="65">
+                <img src="{{ url_for('static', filename='src/background.png') }}" alt="..." class="img-thumbnail" id="66">
+                <img src="{{ url_for('static', filename='src/background.png') }}" alt="..." class="img-thumbnail" id="67">
+                <img src="{{ url_for('static', filename='src/background.png') }}" alt="..." class="img-thumbnail" id="68">
+                <img src="{{ url_for('static', filename='src/background.png') }}" alt="..." class="img-thumbnail" id="69">
+            </div>
+            <div class="tab-pane fade" id="Dandy">
+                <img src="{{ url_for('static', filename='src/background.png') }}" alt="..." class="img-thumbnail" id="70">
+                <img src="{{ url_for('static', filename='src/background.png') }}" alt="..." class="img-thumbnail" id="71">
+                <img src="{{ url_for('static', filename='src/background.png') }}" alt="..." class="img-thumbnail" id="72">
+                <img src="{{ url_for('static', filename='src/background.png') }}" alt="..." class="img-thumbnail" id="73">
+                <img src="{{ url_for('static', filename='src/background.png') }}" alt="..." class="img-thumbnail" id="74">
+                <img src="{{ url_for('static', filename='src/background.png') }}" alt="..." class="img-thumbnail" id="75">
+                <img src="{{ url_for('static', filename='src/background.png') }}" alt="..." class="img-thumbnail" id="76">
+                <img src="{{ url_for('static', filename='src/background.png') }}" alt="..." class="img-thumbnail" id="77">
+                <img src="{{ url_for('static', filename='src/background.png') }}" alt="..." class="img-thumbnail" id="78">
+                <img src="{{ url_for('static', filename='src/background.png') }}" alt="..." class="img-thumbnail" id="79">
+            </div>
+            <div class="tab-pane fade" id="Clear">
+                <img src="{{ url_for('static', filename='src/background.png') }}" alt="..." class="img-thumbnail" id="80">
+                <img src="{{ url_for('static', filename='src/background.png') }}" alt="..." class="img-thumbnail" id="81">
+                <img src="{{ url_for('static', filename='src/background.png') }}" alt="..." class="img-thumbnail" id="82">
+                <img src="{{ url_for('static', filename='src/background.png') }}" alt="..." class="img-thumbnail" id="83">
+                <img src="{{ url_for('static', filename='src/background.png') }}" alt="..." class="img-thumbnail" id="84">
+                <img src="{{ url_for('static', filename='src/background.png') }}" alt="..." class="img-thumbnail" id="85">
+                <img src="{{ url_for('static', filename='src/background.png') }}" alt="..." class="img-thumbnail" id="86">
+                <img src="{{ url_for('static', filename='src/background.png') }}" alt="..." class="img-thumbnail" id="87">
+                <img src="{{ url_for('static', filename='src/background.png') }}" alt="..." class="img-thumbnail" id="88">
+                <img src="{{ url_for('static', filename='src/background.png') }}" alt="..." class="img-thumbnail" id="89">
+            </div>
+            <div class="tab-pane fade" id="CoolCasual">
+                <img src="{{ url_for('static', filename='src/background.png') }}" alt="..." class="img-thumbnail" id="90">
+                <img src="{{ url_for('static', filename='src/background.png') }}" alt="..." class="img-thumbnail" id="91">
+                <img src="{{ url_for('static', filename='src/background.png') }}" alt="..." class="img-thumbnail" id="92">
+                <img src="{{ url_for('static', filename='src/background.png') }}" alt="..." class="img-thumbnail" id="93">
+                <img src="{{ url_for('static', filename='src/background.png') }}" alt="..." class="img-thumbnail" id="94">
+                <img src="{{ url_for('static', filename='src/background.png') }}" alt="..." class="img-thumbnail" id="95">
+                <img src="{{ url_for('static', filename='src/background.png') }}" alt="..." class="img-thumbnail" id="96">
+                <img src="{{ url_for('static', filename='src/background.png') }}" alt="..." class="img-thumbnail" id="97">
+                <img src="{{ url_for('static', filename='src/background.png') }}" alt="..." class="img-thumbnail" id="98">
+                <img src="{{ url_for('static', filename='src/background.png') }}" alt="..." class="img-thumbnail" id="99">
+            </div>
+            <button type="button" class="btn btn-outline-success float-lg-right" id="refresh">Refresh</button>
+        </div>
     </div>
 </div>
 {% endblock %}
@@ -68,8 +204,6 @@
 {% endblock %}
 
 {% block scripts %}
+<script type="text/javascript" src="{{ url_for('static', filename='js/socket.io.js') }}"></script>
 <script type="text/javascript" src="{{ url_for('static', filename='js/painting.js') }}"></script>
 {% endblock %}
-
-
-

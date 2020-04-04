@@ -68,7 +68,7 @@
 
  <!--    {{  bootstrap.load_js() }} -->
     <script type="text/javascript" src="{{ url_for('static', filename='js/jquery-3.4.1.js') }}"></script>
-    <script src="https://cdn.bootcss.com/popper.js/1.16.1/popper.js"></script>
+    <script type="text/javascript" src="{{ url_for('static', filename='js/popper.js') }}"></script>
     <script type="text/javascript" src="{{ url_for('static', filename='js/bootstrap.min.js') }}"></script>
     {% block scripts %}
     {% endblock %}
