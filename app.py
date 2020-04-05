@@ -14,7 +14,7 @@ app = Flask(__name__)
 
 bootstrap = Bootstrap(app)
 
-app.config['SECRET_KEY'] = 'secret!'
+app.config['SECRET_KEY'] = '\xff\xd5\xf3\x92\xb9Q\ts\ny\x97\xe3'
 socketio = SocketIO(app)
 
 model = forwardModel()
