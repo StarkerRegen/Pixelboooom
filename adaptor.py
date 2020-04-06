@@ -10,7 +10,8 @@ class Adaptor():
 
 	def __init__(self):
 		# net = Generator(ch_style=3, ch_content=1).cuda()
-		device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+		# device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+		device = torch.device("cpu")
 		net = Generator(ch_style=3, ch_content=1).to(device)
 		net.load_state_dict(torch.load('model_weights/latest_G.pth'))
 		net.eval()
@@ -28,7 +29,8 @@ class Adaptor():
 	def get_current_visuals(self):
 		with torch.no_grad():
 			# fake = self.net(self.icons.cuda(0), self.grads.cuda(0))
-			device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+			# device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+			device = torch.device("cpu")
 			fake = self.net(self.icons.to(device), self.grads.to(device))
 		# vutils.save_image(self.icons, 'input_style.png', normalize=True, range=(-1, 1))
 		# vutils.save_image(self.grads, 'input_contour.png', normalize=True, range=(-1, 1))
