@@ -13,7 +13,7 @@ class Adaptor():
 		# device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 		device = torch.device("cpu")
 		net = Generator(ch_style=3, ch_content=1).to(device)
-		net.load_state_dict(torch.load('model_weights/latest_G.pth'))
+		net.load_state_dict(torch.load('model_weights/latest_G.pth', map_location=torch.device('cpu')))
 		net.eval()
 		self.net = net
 
