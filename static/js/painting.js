@@ -1,7 +1,7 @@
 var ctx, cav;         // canvas
 var socket;           // websocket
 var interval = null;  // timer  
-let isPC = false;
+let isPC = true;
 let x = 0, y = 0;
 let x_c = 0, y_c = 0;
 let u = 0, r = 0;
@@ -156,6 +156,7 @@ function Sketchpad() {
           $(this).off('mousemove');
         });
       }else {
+        e.stopPropagation();
         let sketchpad = document.getElementById('sketchpad');
         sketchpad.addEventListener('touchstart', function(e) {
           ctx.beginPath();
