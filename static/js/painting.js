@@ -161,7 +161,7 @@ function start() {
     clearInterval(interval);
     interval = null;
   }
-  interval = setInterval(sendcav, 500);
+  interval = setInterval(sendcav, 800);
 }
 
 function stop() {
@@ -186,7 +186,7 @@ function arrayBuffer2Base64(buffer) {
 
 $(function(argument) {
   namespace = '/playground';      
-  socket = io.connect("http://111.230.195.75:"+location.port+namespace);     // 连接Socket.IO server
+  socket = io.connect("http://"+ document.domain + ":" + location.port + namespace);     // 连接Socket.IO server
   socket.on('connect', function() {
     console.log('connect!');
   });                             // 建立新连接的回调函数
