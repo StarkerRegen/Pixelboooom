@@ -26,6 +26,14 @@ let CanvasAutoResize = {
     self.draw();
     $(window).on('resize', function(event){
       self.draw();
+      let len = cavHistory.length-u+r;
+      if(len > 0) {
+        Ops.show(len);
+        socket.emit('cav', {id: styleId, data: cavHistory[len-1], refresh: false});
+      }else {
+        cavHistory.push(cav.toDataURL());
+        socket.emit('cav', {id: styleId, data: cavHistory[0], refresh: true});
+      }
     });
   }
 };
@@ -161,7 +169,7 @@ function start() {
     clearInterval(interval);
     interval = null;
   }
-  interval = setInterval(sendcav, 800);
+  interval = setInterval(sendcav, 600);
 }
 
 function stop() {
@@ -205,9 +213,7 @@ $(function(argument) {
   } else {
     alert("Sorry, your browser can't support canvas");
   }
-  CanvasAutoResize.initialize();    // 画布大小自适应 
-  cavHistory.push(cav.toDataURL());
-  socket.emit('cav', {id: styleId, data: cavHistory[0], refresh: true});
+  CanvasAutoResize.initialize();    // 画布大小自适应
   Sketchpad();
   $('.style-nav').click(function() {
     styleId = this.id;

@@ -1,6 +1,12 @@
 {% extends 'base.html' %}
 {% from 'bootstrap/nav.html' import render_nav_item %}
 
+{% block header %}
+<!--[if IE]>
+    <script type="text/javascript" src="{{ url_for('static', filename='js/excanvas.js') }}"></script>
+<![endif]-->
+{% endblock %}
+
 {% block nav %}
 <h3 class="text-center">
   Playground
