@@ -156,7 +156,6 @@ function Sketchpad() {
           $(this).off('mousemove');
         });
       }else {
-        e.preventDefault();
         let sketchpad = document.getElementById('sketchpad');
         sketchpad.addEventListener('touchstart', function(e) {
           ctx.beginPath();
@@ -168,6 +167,7 @@ function Sketchpad() {
           cavHistory.length = cavHistory.length-u+r;
           u = r = 0;
           sketchpad.addEventListener('touchmove', function(e) {
+            e.preventDefault();
             touch = e.targetTouches[0];
             x_c = touch.pageX - sketchpad.offsetLeft;
             y_c = touch.pageY - sketchpad.offsetTop;
