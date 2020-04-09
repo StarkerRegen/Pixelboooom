@@ -156,9 +156,9 @@ function Sketchpad() {
           $(this).off('mousemove');
         });
       }else {
+        e.preventDefault();
         let sketchpad = document.getElementById('sketchpad');
         sketchpad.addEventListener('touchstart', function(e) {
-          e.preventDefault();
           ctx.beginPath();
           var touch = e.targetTouches[0];
           x = touch.pageX - sketchpad.offsetLeft;
@@ -168,7 +168,6 @@ function Sketchpad() {
           cavHistory.length = cavHistory.length-u+r;
           u = r = 0;
           sketchpad.addEventListener('touchmove', function(e) {
-            e.preventDefault();
             touch = e.targetTouches[0];
             x_c = touch.pageX - sketchpad.offsetLeft;
             y_c = touch.pageY - sketchpad.offsetTop;
@@ -177,7 +176,6 @@ function Sketchpad() {
           }, false);
         }, false);
         sketchpad.addEventListener('touchend', function(e) {
-          e.preventDefault();
           Tools[state](1);
           cavHistory.push(cav.toDataURL());
           $(this).off('touchmove');
