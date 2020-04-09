@@ -156,6 +156,40 @@ function Sketchpad() {
       }
       e.stopPropagation();
     }
+  });
+  $('.img-btn-group').on('touchstart', '.img-btn', function(e) {
+    $('.img-btn-group').removeClass('img-btn-active').find('img').css('background', '#333');
+    $(this).addClass('img-btn-active').css('background', '#fff');     // 功能按钮按下背景改变
+    let state = this.id;
+    $('span#L').text(state);      // 显示被按下的按钮
+    $('#sketchpad').off();
+    if($(this).hasClass('left')) {
+      $('#sketchpad').addEventListener('touchstart', function(e) {
+        x = e.offsetX;
+        y = e.offsetY;
+        $('span#R').text('X:' + x + ', Y:' + y);
+        cavHistory.length = cavHistory.length-u+r;
+        u = r = 0;
+        ctx.beginPath();
+        ctx.moveTo(x, y);
+        $(this).addEventListener('touchmove', function(e) {
+          Tools[state](e, 0);
+          start();
+        });
+      });
+      $('#sketchpad').addEventListener('touchend', function(e) {
+        Tools[state](e, 1);
+        cavHistory.push(cav.toDataURL());
+        $(this).off('mousemove');
+      });
+    }else {
+      stop();
+      if(!e.isPropagationStopped()) {
+        let cur = cavHistory.length-u+r;
+        Ops[state](cur);
+      }
+      e.stopPropagation();
+    }
   });                           
 }
 
