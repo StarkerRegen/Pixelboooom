@@ -7,7 +7,7 @@ let x_c = 0, y_c = 0; // 当前坐标点
 let u = 0, r = 0;     // undo\redo次数
 let styleId = 0;      // icon风格
 let cavHistory = [];  // 画布历史纪录
-let lastState = "";
+let lastState = "", state = "";
 let CanvasAutoResize = {
   draw: function() {
     let canvasContainer = document.getElementById('canvasContainer');
@@ -130,6 +130,7 @@ let Touch = {
     ctx.moveTo(x, y);
     cavHistory.length = cavHistory.length-u+r;
     u = r = 0;
+    cav.addEventListener('touchmove', Touch.move, false);
   },
   move: function(e) {
     e.preventDefault();
@@ -148,7 +149,7 @@ function Sketchpad() {
   $('.img-btn-group').on('click', '.img-btn', function(e) {
     $('.img-btn-group').removeClass('img-btn-active').find('img').css('background', '#333');
     $(this).addClass('img-btn-active').css('background', '#fff');     // 功能按钮按下背景改变
-    let state = this.id;
+    state = this.id;
     $('span#L').text(state);      // 显示被按下的按钮
     if($(this).hasClass('left')) {
       if(state != lastState) {
@@ -179,14 +180,10 @@ function Sketchpad() {
             $(this).off('mousemove');
           });
         }else {
-          let sketchpad = document.getElementById('sketchpad');
-          sketchpad.removeEventListener('touchend', Touch.end, false);
-          sketchpad.addEventListener('touchstart', Touch.start, false);
-          sketchpad.addEventListener('touchmove', Touch.move, false)
-          sketchpad.addEventListener('touchend', function(e) {
-            Touch.end();
-            sketchpad.removeEventListener('touchmove', Touch.move, false);
-          }, false);
+          cav.removeEventListener('touchend', Touch.end, false);
+          cav.removeEventListener('touchstart', Touch.start, false);
+          cav.addEventListener('touchstart', Touch.start, false);
+          cav.addEventListener('touchend', Touch.end, false);
         }
       }
       lastState = state;
