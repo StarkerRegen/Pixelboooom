@@ -7,6 +7,7 @@ let x_c = 0, y_c = 0; // 当前坐标点
 let u = 0, r = 0;     // undo\redo次数
 let styleId = 0;      // icon风格
 let cavHistory = [];  // 画布历史纪录
+let lastState = "";
 let CanvasAutoResize = {
   draw: function() {
     let canvasContainer = document.getElementById('canvasContainer');
@@ -122,61 +123,73 @@ let Ops = {
   }
 }
 
+let Touch = {
+  start: function(e) {
+    ctx.beginPath();
+    getPoint(e, 0);
+    ctx.moveTo(x, y);
+    cavHistory.length = cavHistory.length-u+r;
+    u = r = 0;
+  },
+  move: function(e) {
+    e.preventDefault();
+    getPoint(e, 1);
+    Tools[state](0);
+    start();
+  },
+  end: function(e) {
+    getPoint(e, 1);
+    Tools[state](1);
+    cavHistory.push(cav.toDataURL());
+  }
+}
+
 function Sketchpad() {
   $('.img-btn-group').on('click', '.img-btn', function(e) {
     $('.img-btn-group').removeClass('img-btn-active').find('img').css('background', '#333');
     $(this).addClass('img-btn-active').css('background', '#fff');     // 功能按钮按下背景改变
     let state = this.id;
     $('span#L').text(state);      // 显示被按下的按钮
-    $('#sketchpad').off();
     if($(this).hasClass('left')) {
-      if(isPC) {
-        $('#sketchpad').mousedown(function(e) {
-          x = e.offsetX;
-          y = e.offsetY;
-          
-          cavHistory.length = cavHistory.length-u+r;
-          u = r = 0;
-          ctx.beginPath();
-          ctx.moveTo(x, y);
-          $(this).mousemove(function(e) {
+      if(state != lastState) {
+        if(isPC) {
+          $('#sketchpad').off();
+          $('#sketchpad').mousedown(function(e) {
+            x = e.offsetX;
+            y = e.offsetY;
+            $('span#R').text('X:' + x + ', Y:' + y);
+            cavHistory.length = cavHistory.length-u+r;
+            u = r = 0;
+            ctx.beginPath();
+            ctx.moveTo(x, y);
+            $(this).mousemove(function(e) {
+              x_c = e.offsetX;
+              y_c = e.offsetY;
+              $('span#R').text('X:' + x_c + ', Y:' + y_c);
+              Tools[state](0);
+              start();
+            });
+          });
+          $('#sketchpad').mouseup(function(e) {
             x_c = e.offsetX;
             y_c = e.offsetY;
             $('span#R').text('X:' + x_c + ', Y:' + y_c);
-            Tools[state](0);
-            start();
+            Tools[state](1);
+            cavHistory.push(cav.toDataURL());
+            $(this).off('mousemove');
           });
-        });
-        $('#sketchpad').mouseup(function(e) {
-          x_c = e.offsetX;
-          y_c = e.offsetY;
-          $('span#R').text('X:' + x_c + ', Y:' + y_c);
-          Tools[state](1);
-          cavHistory.push(cav.toDataURL());
-          $(this).off('mousemove');
-        });
-      }else {
-        let sketchpad = document.getElementById('sketchpad');
-        sketchpad.addEventListener('touchstart', function(e) {
-          ctx.beginPath();
-          getPoint(e, 0);
-          ctx.moveTo(x, y);
-          cavHistory.length = cavHistory.length-u+r;
-          u = r = 0;
-          sketchpad.addEventListener('touchmove', function(e) {
-            e.preventDefault();
-            getPoint(e, 1);
-            Tools[state](0);
-            start();
+        }else {
+          let sketchpad = document.getElementById('sketchpad');
+          sketchpad.removeEventListener('touchend', Touch.end, false);
+          sketchpad.addEventListener('touchstart', Touch.start, false);
+          sketchpad.addEventListener('touchmove', Touch.move, false)
+          sketchpad.addEventListener('touchend', function(e) {
+            Touch.end();
+            sketchpad.removeEventListener('touchmove', Touch.move, false);
           }, false);
-        }, false);
-        sketchpad.addEventListener('touchend', function(e) {
-          getPoint(e, 1);
-          Tools[state](1);
-          cavHistory.push(cav.toDataURL());
-          $(this).off('touchmove');
-        }, false);
+        }
       }
+      lastState = state;
     }else {
       stop();
       if(!e.isPropagationStopped()) {
