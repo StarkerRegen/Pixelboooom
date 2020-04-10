@@ -1,12 +1,12 @@
 var ctx, cav;         // canvas
 var socket;           // websocket
 var interval = null;  // timer  
-let isPC = true;
-let x = 0, y = 0;
-let x_c = 0, y_c = 0;
-let u = 0, r = 0;
-let styleId = 0;      // style for icon
-let cavHistory = [];
+let isPC = true;      // PC/touch
+let x = 0, y = 0;     // 起始点
+let x_c = 0, y_c = 0; // 当前坐标点
+let u = 0, r = 0;     // undo\redo次数
+let styleId = 0;      // icon风格
+let cavHistory = [];  // 画布历史纪录
 let CanvasAutoResize = {
   draw: function() {
     let canvasContainer = document.getElementById('canvasContainer');
@@ -35,7 +35,7 @@ let CanvasAutoResize = {
       }else {
         cavHistory.push(cav.toDataURL());
         socket.emit('cav', {id: styleId, data: cavHistory[0], refresh: true});
-      }
+      }     //保证运行过程中页面缩放不会影响当前进度
     });
   }
 };
@@ -134,7 +134,7 @@ function Sketchpad() {
         $('#sketchpad').mousedown(function(e) {
           x = e.offsetX;
           y = e.offsetY;
-          $('span#R').text('X:' + x + ', Y:' + y);
+          
           cavHistory.length = cavHistory.length-u+r;
           u = r = 0;
           ctx.beginPath();
@@ -159,23 +159,19 @@ function Sketchpad() {
         let sketchpad = document.getElementById('sketchpad');
         sketchpad.addEventListener('touchstart', function(e) {
           ctx.beginPath();
-          var touch = e.targetTouches[0];
-          x = touch.pageX - sketchpad.offsetLeft;
-          y = touch.pageY - sketchpad.offsetTop;
+          getPoint(e, 0);
           ctx.moveTo(x, y);
-          $('span#R').text('X:' + x + ', Y:' + y);
           cavHistory.length = cavHistory.length-u+r;
           u = r = 0;
           sketchpad.addEventListener('touchmove', function(e) {
             e.preventDefault();
-            touch = e.targetTouches[0];
-            x_c = touch.pageX - sketchpad.offsetLeft;
-            y_c = touch.pageY - sketchpad.offsetTop;
+            getPoint(e, 1);
             Tools[state](0);
             start();
           }, false);
         }, false);
         sketchpad.addEventListener('touchend', function(e) {
+          getPoint(e, 1);
           Tools[state](1);
           cavHistory.push(cav.toDataURL());
           $(this).off('touchmove');
@@ -190,6 +186,36 @@ function Sketchpad() {
       e.stopPropagation();
     }
   });    
+}
+
+//获取某元素以浏览器左上角为原点的坐标 
+function getOffset(obj) {  
+  //获取该元素对应父容器的边距
+  var t = obj.offsetTop;   
+  var l = obj.offsetLeft;  
+  //判断是否有父容器，如果存在则累加其边距  
+  while (obj = obj.offsetParent) {
+    t += obj.offsetTop;
+    l += obj.offsetLeft;
+  }  
+  return {
+    x:l,
+    y:t
+  }
+}  
+
+function getPoint(e, flag) {
+  const offset = getOffset(document.getElementById('sketchpad'));
+  let touch = e.changedTouches[0];
+  if(!flag) {
+    x = touch.pageX - offset.x;
+    y = touch.pageY - offset.y;
+    $('span#R').text('X:' + x + ', Y:' + y);
+  }else {
+    x_c = touch.pageX - offset.x;
+    y_c = touch.pageY - offset.y;
+    $('span#R').text('X:' + x_c + ', Y:' + y_c);
+  }
 }
 
 function sendcav() {
@@ -250,7 +276,6 @@ $(function(argument) {
   if(/Android|webOS|iPhone|iPod|BlackBerry/i.test(navigator.userAgent)) {
     isPC = false;
   }
-  console.log(isPC);
   Sketchpad();
   $('.style-nav').click(function() {
     styleId = this.id;
