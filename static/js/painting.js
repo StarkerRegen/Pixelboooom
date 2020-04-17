@@ -220,11 +220,11 @@ function getPoint(e, flag) {
   if(!flag) {
     x = touch.pageX - offset.x;
     y = touch.pageY - offset.y;
-    $('span#R').text('X:' + x + ', Y:' + y);
+    $('span#R').text('X:' + Math.round(x) + ', Y:' + Math.round(y));
   }else {
     x_c = touch.pageX - offset.x;
     y_c = touch.pageY - offset.y;
-    $('span#R').text('X:' + x_c + ', Y:' + y_c);
+    $('span#R').text('X:' + Math.round(x_c) + ', Y:' + Math.round(y_c));
   }
 }
 
@@ -283,6 +283,7 @@ $(function(argument) {
     alert("Sorry, your browser can't support canvas");
   }
   CanvasAutoResize.initialize();    // 画布大小自适应
+  cavHistory.push(cav.toDataURL());
   if(/Android|webOS|iPhone|iPod|BlackBerry/i.test(navigator.userAgent)) {
     isPC = false;
   }

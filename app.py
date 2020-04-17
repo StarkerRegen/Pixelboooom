@@ -86,4 +86,4 @@ def image_to_base64(img):
 if __name__ == '__main__':
     # app.run(debug=True, use_reloader=True)
     # socketio.run(app, debug=True, use_reloader=True)
-    socketio.run(app, debug=False, use_reloader=False)
+    socketio.run(app, debug=False, use_reloader=True)
