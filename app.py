@@ -1,7 +1,9 @@
 from flask_bootstrap import Bootstrap
 from flask import Flask, render_template, request
 from flask_socketio import SocketIO, emit
+from flask_sqlalchemy import SQLAlchemy
 
+import config
 import torch
 import numpy as np
 import base64
@@ -11,10 +13,10 @@ from PIL import Image
 from forward import forwardModel, cat
 
 app = Flask(__name__)
+app.config.from_object(config)
 
+db = SQLAlchemy(app)
 bootstrap = Bootstrap(app)
-
-app.config['SECRET_KEY'] = '\xff\xd5\xf3\x92\xb9Q\ts\ny\x97\xe3'
 socketio = SocketIO(app)
 
 model = forwardModel()
@@ -30,6 +32,14 @@ def explore():
 @app.route('/playground', methods=['GET', 'POST'])
 def playground():
     return render_template('playground.html')
+
+@app.route('/SignIn', methods=['GET', 'POST'])
+def signIn():
+    return render_template('signIn.html')
+
+@app.route('/SignUp', methods=['GET', 'POST'])
+def signUp():
+    return render_template('signUp.html')
 
 @socketio.on('cav', namespace='/playground')
 def playground_message(message):

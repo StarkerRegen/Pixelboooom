@@ -50,7 +50,10 @@ let Tools = {
   },
   eraser: function(flag) {
     if(!flag) {
-      ctx.clearRect(x_c, y_c, 10, 10);
+      //ctx.clearRect(x_c, y_c, 10, 10);
+      ctx.fillStyle="#FFFFFF";
+      ctx.fillRect(x_c, y_c, 10, 10);
+      ctx.fillStyle="#000000";
     }
   },
   line: function(flag) {
