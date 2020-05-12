@@ -1,21 +1,47 @@
 {% extends 'base.html' %}
 {% from 'bootstrap/nav.html' import render_nav_item %}
 
-{% block header %}
-<!--[if IE]>
-    <script type="text/javascript" src="{{ url_for('static', filename='js/excanvas.js') }}"></script>
-<![endif]-->
+{% block head %}
+<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/style.css') }}">
 {% endblock %}
 
 {% block nav %}
-<h3 class="text-center">
-  Playground
-  <small class="text-muted">with brush</small>
-</h3>
-<div class="navbar-btn ml-auto">
-    <a class="btn btn-outline-primary" href="../LogIn" role="button">LogIn</button>
-    <a class="btn btn-primary" href="../SignUp" role="button">SignUp</a>
-</div>
+{% if current_user.is_authenticated %}
+<header>
+    <div class="background-image"></div>
+    <div class="container">
+        <div class="row">
+            <nav class="menu">
+                <ul>
+                    <li><a class="nav-item nav-link" href="{{ url_for('homepage', nickname=current_user.username) }}">Home</a></li>
+                    <li>{{ render_nav_item('explore', 'Explore') }}</li>
+                    <li>{{ render_nav_item('playground', 'Create') }}</li>
+                </ul>
+            </nav>
+            <nav class="ml-auto">
+                <ul>
+                    <li class="nav-link">{{ current_user.username }}</li>
+                    <li>{{ render_nav_item('logout', 'LogOut') }}</li>
+                </ul>
+            </nav>
+        </div>
+        <br>
+    </div>
+</header>
+{% else %}
+<nav class="navbar navbar-expand-lg fixed-top navbar-light bg-light">
+    <div class="container">
+        <a class="navbar-brand" href="#">Pixelbooom!</a>
+        <h3 class="text-center">Playground
+            <small class="text-muted">with brush</small>
+        </h3>
+        <div class="navbar-btn ml-auto">
+            <a class="btn btn-outline-primary" href="../signin" role="button">LogIn</a>
+            <a class="btn btn-primary" href="../signup" role="button">SignUp</a>
+        </div>
+    </div>
+</nav>
+{% endif %}
 {% endblock %}
 
 {% block content %}
@@ -219,6 +245,38 @@
                 <img src="{{ url_for('static', filename='src/background.png') }}" alt="..." class="img-thumbnail" id="911">
             </div>
         </div>
+        {% if current_user.is_authenticated %}
+        <button type="button" class="btn btn-outline-success float-lg-right" id="post" data-toggle="modal" data-target="#postcard">New Post</button>
+        <div class="modal" id="postcard">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">New Post</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <form method="post" target="iframe" id="form">
+                        {{ form.csrf_token }}
+                        <div class="modal-body" id="postform">
+                            <label for="title">Title</label>
+                            {{ form.title(class="form-control", id="title") }}
+                            <label for="category">Category</label>
+                            {{ form.category(class="form-control", id="category") }}
+                            <label for="img">Images</label>
+                            {{ form.img(class="form-control", id="img", readonly="true") }}
+                            {{ form.style(class="form-control", id="style", style="display:none") }}
+                        </div>
+                        <div class="modal-footer">
+                            {{ form.submit(class="btn btn-secondary")}}
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                        </div>
+                    </form>
+                    <iframe id="iframe" name="iframe" style="display:none;"></iframe>
+                </div>
+            </div>
+        </div>
+        {% endif %}
         <button type="button" class="btn btn-outline-success float-lg-right" id="refresh">Refresh</button>
     </div>
 </div>
@@ -232,4 +290,5 @@
 {% block scripts %}
 <script type="text/javascript" src="{{ url_for('static', filename='js/socket.io.js') }}"></script>
 <script type="text/javascript" src="{{ url_for('static', filename='js/function/painting.js') }}"></script>
+<script type="text/javascript" src="{{ url_for('static', filename='js/function/image-picker.js') }}"></script>
 {% endblock %}

@@ -1,3 +1,77 @@
+header {
+    position: relative;
+    display: -webkit-box;
+    display: flex;
+    flex-wrap: wrap;
+    -webkit-box-align: center;
+          align-items: center;
+    -webkit-box-pack: justify;
+          justify-content: space-between;
+    background-color: #ffc107;
+}
+
+header > .background-image {
+    opacity: 0.1;
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    background: url(../src/header_bg.png) center 0px fixed no-repeat;
+    display: block;
+    z-index: 0;
+}
+
+header a {
+    color: #fff;
+    font-size: 24px;
+}
+
+header nav {
+    float: left;
+    margin-top: 50px;
+}
+
+header nav ul {
+    padding: 0px;
+    margin: 0px;
+}
+
+header nav ul li {
+    float: left;
+    list-style: none;
+    font-weight: 700;
+    font-size: 24px;
+    margin-right: 10px;
+    position: relative;
+}
+
+header nav.menu > ul > li:hover {
+    border-bottom: 4px solid #555;
+    color: #555;
+}
+
+header .teaser{
+    margin-top: 100px;
+    width: 100%;
+    text-align: center;
+    margin-bottom: 10px;
+    margin-top: 60px;
+}
+
+header .teaser h2 {
+    text-transform: uppercase;
+    font-size: 72px;
+    line-height: 72px;
+    font-weight: 800;
+}
+
+header .teaser p {
+    margin-bottom: 0px;
+    font-size: 40px;
+}
+
 body {
     background-color: #ffc107;
 }

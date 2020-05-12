@@ -1,1 +1,80 @@
 {% extends 'base.html' %}
+
+{% block head %}
+<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/sortable.min.css') }}">
+<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/explore.css') }}">
+<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/style.css') }}">
+<script type="text/javascript" src="{{ url_for('static', filename='js/sortable.min.js') }}"></script>
+{% endblock %}
+
+{% if current_user.is_authenticated %}
+{% block nav %}
+<header>
+    <div class="background-image"></div>
+    <div class="container">
+        <div class="row">
+            <nav class="menu">
+                <ul>
+                    <li><a class="nav-item nav-link" href="{{ url_for('homepage', nickname=current_user.username) }}">Home</a></li>
+                    <li>{{ render_nav_item('explore', 'Explore') }}</li>
+                    <li>{{ render_nav_item('playground', 'Create') }}</li>
+                </ul>
+            </nav>
+            <nav class="ml-auto">
+                <ul>
+                    <li class="nav-link">{{ current_user.username }}</li>
+                    <li>{{ render_nav_item('logout', 'LogOut') }}</li>
+                </ul>
+            </nav>
+        </div>
+        <br>
+    </div>
+</header>
+{% endblock %}
+{% endif %}
+
+{% block content %}
+<div class="page">
+    <ul class="sortableNav nav">
+        <li><a data-sjslink="all" class="navLink">All</a></li>
+        <li><a data-sjslink="flatty" class="navLink">Flatty</a></li>
+        <li><a data-sjslink="funny" class="navLink">Funny</a></li>
+    </ul>
+    <div id="sortable" class="sjs-default">
+        <div data-sjsel="flatty">
+            <div class="article">
+                <img src="../static/1.jpg" alt="yy">
+                <div class="entry-text">
+                    <div class="entry-header">
+                        <div class="entry-meta">
+                            <span class="cat-links"><a href="#">Design</a></span>         
+                        </div>
+                        <h1 class="entry-title"><a href="single-standard.html">Just a Standard Format Post.</a></h1>
+                    </div>
+                    <div class="entry-excerpt">
+                        2020-05-08,Friday,21:39.
+                    </div>
+               </div>
+            </div>
+        </div>
+        <div data-sjsel="flatty">
+            <div class="article">
+                <img src="../static/1.jpg" alt="yy">
+                <h2>Example 2</h2>
+            </div>
+        </div>
+        <div data-sjsel="funny">
+            <div class="article">
+                <img src="../static/2.jpg" alt="yy">
+                <h2>Example 3</h2>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script type="text/javascript">
+  document.querySelector('#sortable').sortablejs()
+</script>
+{% endblock %}

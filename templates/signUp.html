@@ -1,23 +1,33 @@
 {% extends 'signIn.html' %}
-{% block title %}
-<title>Pixelboooom·SignUp</title>
-{% endblock %}
 
 {% block form %}
 <h1>Join us</h1>
-<form>
+<form method="post">
+    {{ form.csrf_token }}
     <div class="form-group">
-        <input type="user" class="form-control" id="userName"placeholder="UserName（Only letters or numbers）">  
+        {{ form.username(class="form-control", id="userName", placeholder="UserName（Only letters or numbers）") }}  
+        {% for message in form.username.errors %}
+            <small class="error">{{ message }}</small>
+        {% endfor %}
     </div>
     <div class="form-group">
-        <input type="email" class="form-control" id="exampleInputEmail1" placeholder="email@example.com">
+        {{ form.email(class="form-control", id="exampleInputEmail1", placeholder="email@example.com") }}
+        {% for message in form.email.errors %}
+            <small class="error">{{ message }}</small>
+        {% endfor %}
     </div>
     <div class="form-group">
-        <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Password（Combination of 8-16 letters and numbers）">
+        {{ form.password(class="form-control", id="exampleInputPassword1", placeholder="Password（Combination of 8-16 letters and numbers）") }}
+        {% for message in form.password.errors %}
+            <small class="error">{{ message }}</small>
+        {% endfor %}
     </div>
     <div class="form-group">
-        <input type="password" class="form-control" id="exampleInputPassword2" placeholder="Confirm password">
+        {{ form.password_c(class="form-control", id="exampleInputPassword2", placeholder="Confirm password") }}
+        {% for message in form.password_c.errors %}
+            <small class="error">{{ message }}</small>
+        {% endfor %}
     </div>
-    <button type="submit" class="btn btn-lg btn-block btn-success">Create account</button>
+    {{ form.submit(class="btn btn-lg btn-block btn-success")}}
 </form>
 {% endblock %}

@@ -5,21 +5,17 @@
 <head>
     <meta charset="utf-8">
     <meta name="vieport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    {% block head %}
     <title>Pixelboooom</title>
     <link rel="icon" href="{{ url_for('static', filename='src/favicon.ico') }}">
-    <!--[if lt IE 9]>
-        <script type="text/javascript" src="{{ url_for('static', filename='js/html5shiv.js') }}"></script>
-        <script type="text/javascript" src="{{ url_for('static', filename='js/respond.js') }}"></script>
-    <![endif]-->
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/bootstrap.min.css') }}">
+    {% block head %}
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/style.css') }}">
     {% endblock %}
 </head>
 <body>
+    {% block nav %}
     <nav class="navbar navbar-expand-lg fixed-top navbar-light bg-light">
         <div class="container">
-            {% block nav %}
             <a class="navbar-brand" href="#">Pixelbooom!</a>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarColor03" aria-controls="navbarColor03" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
@@ -29,12 +25,12 @@
                 {{ render_nav_item('explore', 'Explore') }}
             </div>
             <div class="navbar-btn ml-auto">
-                <a class="btn btn-outline-primary" href="../SignIn" role="button">SignIn</button>
-                <a class="btn btn-primary" href="../SignUp" role="button">SignUp</a>
+                <a class="btn btn-outline-primary" href="../signin" role="button">SignIn</button>
+                <a class="btn btn-primary" href="../signup" role="button">SignUp</a>
             </div>
-            {% endblock %}
         </div>
     </nav>
+    {% endblock %}
 
     <div class="container">
         {% block content %}
@@ -44,7 +40,7 @@
             <hr class="my-4">
             <p>目前只有 playground 功能开启.</p>
             <p class="lead">
-                <a class="btn btn-primary btn-lg" href="#" role="button">Join Us</a>
+                <a class="btn btn-primary btn-lg" href="../signup" role="button">Join Us</a>
                 <a class="btn btn-link" href="../playground" role="button">Playground</a>
             </p>
         </div>
@@ -65,7 +61,6 @@
         </footer>
     </div>
 
- <!--    {{  bootstrap.load_js() }} -->
     <script type="text/javascript" src="{{ url_for('static', filename='js/jquery-3.4.1.js') }}"></script>
     <script type="text/javascript" src="{{ url_for('static', filename='js/popper.js') }}"></script>
     <script type="text/javascript" src="{{ url_for('static', filename='js/bootstrap.min.js') }}"></script>

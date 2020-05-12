@@ -1,0 +1,82 @@
+{% from 'bootstrap/nav.html' import render_nav_item %}
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    {% block head %}
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/bootstrap.min.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/page.css') }}">
+    {% endblock %}
+</head>
+<body>
+    <header>
+        <div class="background-image"></div>
+        <div class="container">
+            <div class="row">
+                <nav class="menu">
+                    <ul>
+                        <li><a class="nav-item nav-link" href="{{ url_for('homepage', nickname=current_user.username) }}">Home</a></li>
+                        <li>{{ render_nav_item('explore', 'Explore') }}</li>
+                        <li>{{ render_nav_item('playground', 'Create') }}</li>
+                    </ul>
+                </nav>
+                <nav class="menu ml-auto">
+                    {{ render_nav_item('logout', 'LogOut') }}
+                </nav>
+            </div>
+            <div class="row"> 
+                <div class="teaser">
+                    <h2>{{ nickname }}</h2>
+                    <p>Blogging about everything web & design</p>
+                </div>
+            </div>
+        </div>
+    </header> 
+    <section class="page">
+    {% block content %}
+    <div class="container">
+        <div class="row">
+            <div class="col-8">   
+                <!-- post -->
+                <div class="post gallery-post">
+                    <h2 class="section-title">Everything You Can Do Right Now.</h2>
+                    <!-- meta -->
+                    <div class="meta">
+                        <p>Category: <span>Technology</span><span>Off Topic</span><span class="dash">/</span> 13 August 2013 <span class="dash">/</span> <a href="#comments">7 Comments</a></span></p>
+                    </div><!-- end meta -->
+                    <!-- content -->
+                    <div class="post-content">
+                        <div class="content">
+                            <div class="floatImage" ><img src="../static/src/blog_post_image.png" alt="Post" /></div>
+                            <p>Morbi accumsan ipsum velit. Nam nec tellus a odio tincidunt auctor a ornare odio. Sed non  mauris vitae erat consequat auctor eu in elit. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Etiam pharetra, erat sed fermentum feugiat, velit mauris egestas quam, ut aliquam massa nisl quis neque. Suspendisse in orci enim.</p>
+                        </div><!-- end post content -->
+                    </div><!-- end content -->
+                </div>
+            </div>
+            <div id="sidebar" class="sidebar col-4">                                     
+                <div class="widget">
+                    <h4>Latest Works</h4>
+                    <div class="widget-content">
+                        <div class="works-wrapper">
+                            <a href="portfolio-single.html"><img src="img/demo/work1.png" alt="Wrk" /></a>
+                            <a href="portfolio-single.html"><img src="img/demo/work2.png" alt="Wrk" /></a>
+                            <a href="portfolio-single.html"><img src="img/demo/work3.png" alt="Wrk" /></a>
+                            <a href="portfolio-single.html"><img src="img/demo/work4.png" alt="Wrk" /></a>
+                            <a href="portfolio-single.html"><img src="img/demo/work5.png" alt="Wrk" /></a>
+                            <a href="portfolio-single.html"><img src="img/demo/work6.png" alt="Wrk" /></a>
+                            <a href="portfolio-single.html"><img src="img/demo/work7.png" alt="Wrk" /></a>
+                            <a href="portfolio-single.html"><img src="img/demo/work8.png" alt="Wrk" /></a>
+                            <a href="portfolio-single.html"><img src="img/demo/work8.png" alt="Wrk" /></a>
+                        </div><!-- end works wrapper -->
+                    </div><!-- end widget content -->
+                </div><!-- end widget -->
+            </div><!-- end sidebar -->
+        </div><!-- end row -->
+    </div>
+    {% endblock %} 
+    </section>
+    {% block scripts %}
+    {% endblock %}
+</body>
+</html> 

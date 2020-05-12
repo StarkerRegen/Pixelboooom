@@ -1,9 +1,12 @@
 from flask_bootstrap import Bootstrap
-from flask import Flask, render_template, request
+from flask import Flask, render_template, request, url_for, redirect, flash
 from flask_socketio import SocketIO, emit
 from flask_sqlalchemy import SQLAlchemy
+from flask_login import LoginManager, login_user, current_user, logout_user
+from flask_bcrypt import Bcrypt
 
 import config
+import time
 import torch
 import numpy as np
 import base64
@@ -16,13 +19,25 @@ app = Flask(__name__)
 app.config.from_object(config)
 
 db = SQLAlchemy(app)
+bcrypt = Bcrypt(app)
 bootstrap = Bootstrap(app)
 socketio = SocketIO(app)
+db.init_app(app)
+login_manager = LoginManager(app)
+login_manager.login_view = 'login'
+login_manager.login_message_category = 'info'
+
+from forms import SigninForm, SignupForm, PostForm
+from models import User, Post
 
 model = forwardModel()
+result_fake = result_real = []
 
 @app.route('/', methods=['GET', 'POST'])
 def index():
+    if current_user.is_authenticated:
+        print(user_id)
+        return redirect(url_for('homepage', nickname=current_user.username))
     return render_template('base.html')
 
 @app.route('/explore', methods=['GET', 'POST'])
@@ -31,18 +46,52 @@ def explore():
 
 @app.route('/playground', methods=['GET', 'POST'])
 def playground():
-    return render_template('playground.html')
+    form = PostForm()
+    if form.validate_on_submit():
+        title = form.title.data
+        ids = form.img.data.split(',')
+        style = form.style.data
+        time = time.strftime('%Y-%m-%d %H:%M:%S',time.localtime(time.time()))
+        for i in ids:
+            imglist = image_to_base64(result_fake[int(i)]) + ' '
+    return render_template('playground.html', form=form)
 
-@app.route('/SignIn', methods=['GET', 'POST'])
-def signIn():
-    return render_template('signIn.html')
+@app.route('/signin', methods=['GET', 'POST'])
+def signin():
+    form = SigninForm()
+    if form.validate_on_submit():
+        user = User.query.filter_by(email=form.email.data).first()
+        if user and bcrypt.check_password_hash(user.password, form.password.data):
+            login_user(user, remember=form.remember_me.data)
+            return redirect(url_for('homepage', nickname=current_user.username))
+        else:
+            flash('Login Unsuccessful. Please check email and password', 'danger')
+    return render_template('signIn.html', title="SignIn", form=form)
 
-@app.route('/SignUp', methods=['GET', 'POST'])
-def signUp():
-    return render_template('signUp.html')
+@app.route('/signup', methods=['GET', 'POST'])
+def signup():
+    form = SignupForm()
+    if form.validate_on_submit():
+        hashed_password = bcrypt.generate_password_hash(form.password.data).decode('utf-8')
+        user = User(username=form.username.data, email=form.email.data, password=hashed_password)
+        db.session.add(user)
+        db.session.commit()
+        flash('您的账号已建立','success')
+        return redirect('SignIn')
+    return render_template('signUp.html', title="SignUp", form=form)
+
+@app.route('/logout', methods=['GET', 'POST'])
+def logout():
+    logout_user()
+    return redirect('/')
+
+@app.route('/homepage/<nickname>', methods=['GET', 'POST'])
+def homepage(nickname):
+    return render_template('page.html', nickname=nickname)
 
 @socketio.on('cav', namespace='/playground')
 def playground_message(message):
+    global result_fake, result_real
     img = base64_to_image(message['data'][22:])
     model.set_edge(np.asarray(img))
     if(message['refresh']):
@@ -60,7 +109,7 @@ def playground_message(message):
         "data_7": image_to_base64(result_fake[7]),
         "data_8": image_to_base64(result_fake[8]),
         "data_9": image_to_base64(result_fake[9]),
-	"data_10": image_to_base64(result_fake[10]),
+	    "data_10": image_to_base64(result_fake[10]),
         "data_11": image_to_base64(result_fake[11])
     }
     emit('my response', msg, namespace='/playground')
