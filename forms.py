@@ -1,5 +1,5 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, BooleanField, PasswordField, SubmitField
+from wtforms import StringField, BooleanField, PasswordField, SubmitField, IntegerField, TextAreaField
 from wtforms.validators import DataRequired, Length, Email, Regexp, EqualTo, ValidationError
 from models import User
 
@@ -33,9 +33,16 @@ class SignupForm(FlaskForm):
 
 
 class PostForm(FlaskForm):
-    title = StringField('title', validators=[DataRequired(), Length(1,100)])
-    category = StringField('category', validators=[DataRequired(), Length(1,100)])
+    title = StringField('title', validators=[DataRequired(), Length(1,20)])
+    category = StringField('category', validators=[DataRequired(), Length(1,50)])
     img = StringField('id', validators=[DataRequired(), Length(1,40)])
     style = StringField('style', validators=[DataRequired(), Length(1,10)])
+    article = TextAreaField('style', validators=[DataRequired(), Length(1,120)])
     submit = SubmitField('Publish')
-                                
+
+class EditForm(FlaskForm):
+    title = StringField('title', validators=[DataRequired(), Length(1,20)])
+    category = StringField('category', validators=[DataRequired(), Length(1,50)])
+    article = TextAreaField('style', validators=[DataRequired(), Length(1,120)])
+    submit = SubmitField('Update')
+                                                                        

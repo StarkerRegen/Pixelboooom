@@ -4,7 +4,6 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <meta name="referrer" content="no-referrer" /> 
     {% block head %}
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/bootstrap.min.css') }}">
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/page.css') }}">
@@ -55,10 +54,16 @@
                 {% else %}
                 <div class="post gallery-post disable" id="{{ post.id }}">
                 {% endif %}
+                    {% if current_user.is_authenticated %}
+                    <div class="img-btn-group">
+                        <img src="/static/src/edit.png" alt="edit" class="edit" id="/edit/{{ post.id }}">
+                        <img src="/static/src/del.png" alt="pen" class="delete" id="/delete/{{ post.id }}">
+                    </div>
+                    {% endif %}
                     <h2 class="section-title">{{ post.title }}</h2>
                     <!-- meta -->
                     <div class="meta">
-                        <p>Category: <span>{{ post.category }}</span><span class="dash">/</span> {{ post.date_posted }} <span class="dash">/</span><span><button type="button" class="btn btn-link" id="likes">Likes</button></span></p>
+                        <p>Category: <span>{{ post.category }}</span><span class="dash">/</span> {{ post.date_posted }} <span class="dash">/</span><span>{{ post.likes }} Likes</span></p>
                     </div><!-- end meta -->
                     <!-- content -->
                     <div class="post-content">
@@ -68,7 +73,7 @@
                                 <img src="{{ image|join|replace('./','/') }}" alt="PostImage">
                             </div>
                             {% endfor %}
-                            <!-- <p>{{ post.article }}</p> -->
+                            <p>{{ post.article }}</p>
                         </div><!-- end post content -->
                     </div><!-- end content -->
                 </div>
@@ -89,10 +94,9 @@
                 </div>
             </div><!-- end sidebar -->
         </div><!-- end row -->
-    </div>
-    {% endblock %} 
+    </div> 
+    {% endblock %}
     </section>
-    {% block scripts %}
     <script type="text/javascript" src="{{ url_for('static', filename='js/jquery-3.4.1.js') }}"></script>
     <script type="text/javascript">
         $('.post-selecter').click(function(e) {
@@ -105,7 +109,17 @@
                 }
             });
         });
+        $('.delete').click(function() {
+            let r = confirm("Do you want to delete this post?");
+            if(r) {
+                self.location.href = this.id;
+            }
+        });
+        {% block scripts %}
+        $('.edit').click(function() {
+            self.location.href = this.id;
+        });
+        {% endblock %}
     </script>
-    {% endblock %}
 </body>
 </html> 

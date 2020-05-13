@@ -4,6 +4,10 @@ body {
 	-webkit-font-smoothing : antialiased;
 }
 
+label {
+    float: left;
+    padding-left: 1rem;
+}
 
 #login-bg.container-fluid {
 	padding: 0;

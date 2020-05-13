@@ -86,13 +86,7 @@
         <hr class="my-4">
         <ul class="nav nav-pills offset-2">
             <li class="nav-item"><a class="nav-link active style-nav" data-toggle="tab" href="#Pretty" id="0">Pretty</a></li>
-            <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" id="dropdownMenuLink" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Casual</a>
-                <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-                    <a class="dropdown-item style-nav" data-toggle="tab" href="#Casual" id="1">casual</a>
-                    <a class="dropdown-item style-nav" data-toggle="tab" href="#CoolCasual" id="9">Cool casual</a>
-                </div>
-            </li>
+            <li class="nav-item"><a class="nav-link style-nav" data-toggle="tab" href="#Casual" id="1">Casual</a></li>
             <li class="nav-item"><a class="nav-link style-nav" data-toggle="tab" href="#Dynamic" id="2">Dynamic</a></li>
             <li class="nav-item"><a class="nav-link style-nav" data-toggle="tab" href="#Gorgeous" id="3">Gorgeous</a></li>
             <li class="nav-item"><a class="nav-link style-nav" data-toggle="tab" href="#Wild" id="4">Wild</a></li>
@@ -100,6 +94,7 @@
             <li class="nav-item"><a class="nav-link style-nav" data-toggle="tab" href="#Elegant" id="6">Elegant</a></li>
             <li class="nav-item"><a class="nav-link style-nav" data-toggle="tab" href="#Dandy" id="7">Dandy</a></li>
             <li class="nav-item"><a class="nav-link style-nav" data-toggle="tab" href="#Clear" id="8">Clear</a></li>
+            <li class="nav-item"><a class="nav-link style-nav" data-toggle="tab" href="#CoolCasual" id="9">Cool casual</a></li>
         </ul>
         <hr class="my-4">
         <div class="tab-content ml-4">
@@ -259,12 +254,14 @@
                         {{ form.csrf_token }}
                         <div class="modal-body" id="postform">
                             <label for="title">Title</label>
-                            {{ form.title(class="form-control", id="title") }}
+                            {{ form.title(class="form-control", id="title", placeholder="Within 20 letters") }}
                             <label for="category">Category</label>
-                            {{ form.category(class="form-control", id="category") }}
+                            {{ form.category(class="form-control", id="category", placeholder="Within 50 letters") }}
                             <label for="img">Images</label>
                             {{ form.img(class="form-control", id="img", readonly="true") }}
                             {{ form.style(class="form-control", id="style", style="display:none") }}
+                            <label for="article">Article</label>
+                            {{ form.article(class="form-control", id="article", placeholder="Within 120 letters") }}
                         </div>
                         <div class="modal-footer">
                             {{ form.submit(class="btn btn-secondary")}}

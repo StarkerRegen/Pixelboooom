@@ -27,7 +27,7 @@ login_manager = LoginManager(app)
 login_manager.login_view = 'login'
 login_manager.login_message_category = 'info'
 
-from forms import SigninForm, SignupForm, PostForm
+from forms import SigninForm, SignupForm, PostForm, EditForm
 from models import User, Post
 
 model = forwardModel()
@@ -51,15 +51,16 @@ def playground():
         title = form.title.data
         category = form.category.data
         style = form.style.data
+        article = form.article.data
         date_posted = time.strftime('%Y-%m-%d %H:%M:%S',time.localtime(time.time()))
         ids = form.img.data.split(',')
         imglist = ''
         for i in ids:
             path = './static/imgdata/' + str(time.time()) + '.png'
-            img = result_fake[int(i)]
+            img = result_fake[int(i)%10]
             img.save(path,'png')
             imglist += path + ' '
-        post = Post(title=title, category=category, style=style, username=current_user.username, imglist=imglist, date_posted=date_posted)
+        post = Post(title=title, category=category, style=style, username=current_user.username, imglist=imglist, article=article, date_posted=date_posted)
         user = User.query.filter_by(username=current_user.username).first()
         user.posts.append(post)
         db.session.commit()
@@ -96,9 +97,27 @@ def logout():
 
 @app.route('/homepage/<nickname>', methods=['GET', 'POST'])
 def homepage(nickname):
-    user = User.query.filter_by(username=nickname).first()
-    posts = Post.query.filter_by(user_id=user.id).order_by(Post.date_posted.desc()).all()
+    posts = Post.query.filter_by(username=nickname).order_by(Post.date_posted.desc()).all()
     return render_template('page.html', nickname=nickname, posts=posts)
+
+@app.route('/edit/<postid>', methods=['GET', 'POST'])
+def edit(postid):
+    form = EditForm()
+    post = Post.query.get(postid)
+    if form.validate_on_submit():
+        post.title = form.title.data
+        post.category = form.category.data
+        post.article = form.article.data
+        db.session.commit()
+        return redirect(url_for('homepage', nickname=current_user.username))
+    return render_template('edit.html', nickname=current_user.username, post=post, form=form)
+
+@app.route('/delete/<postid>', methods=['GET', 'POST'])
+def delete(postid):
+    post = Post.query.get(postid)
+    db.session.delete(post)
+    db.session.commit()
+    return redirect(url_for('homepage', nickname=current_user.username))
 
 @socketio.on('cav', namespace='/playground')
 def playground_message(message):
@@ -151,7 +170,6 @@ def image_to_base64(img):
     byte_data = output_buffer.getvalue()
     base64_str = base64.b64encode(byte_data)
     return base64_str
-
 
 if __name__ == '__main__':
     # app.run(debug=True, use_reloader=True)

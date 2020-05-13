@@ -22,12 +22,14 @@ class User(db.Model, UserMixin):
 class Post(db.Model):
     __tablename__ = 'post'
     id = db.Column(db.Integer, primary_key=True)
-    title = db.Column(db.String(100), nullable=False)
-    category = db.Column(db.String(100), nullable=False)
+    title = db.Column(db.String(20), nullable=False)
+    category = db.Column(db.String(50), nullable=False)
     style = db.Column(db.String(10), nullable=False)
-    username = db.Column(db.String(20), unique=True, nullable=False)
+    username = db.Column(db.String(20), nullable=False)
     imglist = db.Column(db.String(300), nullable=False)
+    article = db.Column(db.String(120), nullable=True)
     date_posted = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
+    likes = db.Column(db.Integer, default=0)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
     
     def __repr__(self): 

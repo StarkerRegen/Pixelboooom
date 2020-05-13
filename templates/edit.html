@@ -1,0 +1,29 @@
+{% extends 'signIn.html' %}
+{% block form %}
+<form method="post">
+    {{ form.csrf_token }}
+    <div class="form-group">
+        <label for="title">Title</label>
+        {{form.title(class="form-control", id="title", value=post.title)}}  
+        {% for message in form.title.errors %}
+            <small class="error">{{ message }}</small>
+        {% endfor %}
+    </div>
+    <div class="form-group">
+        <label for="category">Category</label>
+        {{form.category(class="form-control", id="category", value=post.category )}}
+        {% for message in form.category.errors %}
+            <small class="error">{{ message }}</small>
+        {% endfor %}
+    </div>
+    <div class="form-group">
+        <label for="article">Article</label>
+        {{ form.article(class="form-control", id="article", value=post.article) }}
+        {% for message in form.article.errors %}
+            <small class="error">{{ message }}</small>
+        {% endfor %}
+    </div>
+    {{ form.submit(class="btn btn-lg btn-block btn-success")}}
+</form>
+<a href="{{ url_for('homepage', nickname=nickname) }}"class="btn-link">Cancel</a>
+{% endblock %}

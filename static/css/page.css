@@ -154,3 +154,8 @@ section.page {
 .disable {
     display: none;
 }
+
+.img-btn-group {
+    float: right;
+    margin-right: 6rem;
+}

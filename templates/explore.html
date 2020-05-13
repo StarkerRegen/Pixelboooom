@@ -52,14 +52,22 @@
 <div class="page">
     <ul class="sortableNav nav">
         <li><a data-sjslink="all" class="navLink">All</a></li>
-        <li><a data-sjslink="flatty" class="navLink">Flatty</a></li>
-        <li><a data-sjslink="funny" class="navLink">Funny</a></li>
+        <li><a data-sjslink="Pretty" class="navLink">Pretty</a></li>
+        <li><a data-sjslink="Casual" class="navLink">Casual</a></li>
+        <li><a data-sjslink="Dynamic" class="navLink">Dynamic</a></li>
+        <li><a data-sjslink="Gorgeous" class="navLink">Gorgeous</a></li>
+        <li><a data-sjslink="Wild" class="navLink">Wild</a></li>
+        <li><a data-sjslink="Natural" class="navLink">Natural</a></li>
+        <li><a data-sjslink="Elegant" class="navLink">Elegant</a></li>
+        <li><a data-sjslink="Dandy" class="navLink">Dandy</a></li>
+        <li><a data-sjslink="Clear" class="navLink">Clear</a></li>
+        <li><a data-sjslink="CoolCasual" class="navLink">CoolCasual</a></li>
     </ul>
     <div id="sortable" class="sjs-default">
         {% for post in posts %}
         <div data-sjsel="{{ post.style }}">
             <div class="article">
-                <img src="../static/1.jpg" alt="yy">
+                <img src="{{ post.imglist|slice(post.imglist|wordcount()//4)|first|join|replace('./','/') }}" alt="post image">
                 <div class="entry-text">
                     <div class="entry-header">
                         <h1 class="entry-title"><a href="single-standard.html">{{ post.title }}</a></h1>
