@@ -41,7 +41,7 @@ def index():
 
 @app.route('/explore', methods=['GET', 'POST'])
 def explore():
-    posts = Post.query.all()
+    posts = Post.query.order_by(Post.likes.desc()).all()
     return render_template('explore.html', posts=posts)
 
 @app.route('/playground', methods=['GET', 'POST'])
@@ -117,7 +117,14 @@ def delete(postid):
     post = Post.query.get(postid)
     db.session.delete(post)
     db.session.commit()
-    return redirect(url_for('homepage', nickname=current_user.username))
+    return redirect(url_for('explore'))
+
+@app.route('/like/<postid>', methods=['GET', 'POST'])
+def like(postid):
+    post = Post.query.get(postid)
+    post.likes += 1
+    db.session.commit()
+    return redirect(url_for('explore'))
 
 @socketio.on('cav', namespace='/playground')
 def playground_message(message):

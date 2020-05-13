@@ -70,12 +70,17 @@
                 <img src="{{ post.imglist|slice(post.imglist|wordcount()//4)|first|join|replace('./','/') }}" alt="post image">
                 <div class="entry-text">
                     <div class="entry-header">
-                        <h1 class="entry-title"><a href="single-standard.html">{{ post.title }}</a></h1>
-                        <p>Category: <span>{{ post.category }} </span><span class="dash">/  </span><a href="{{ url_for('homepage', nickname=post.username) }}">{{ post.username }}</a></p>
+                        <h1 class="entry-title">{{ post.title }}</h1>
+                        <p>Category: <span>{{ post.category }} </span><span class="dash">/  </span> Autor: <a href="{{ url_for('homepage', nickname=post.username) }}">{{ post.username }}</a></p>
                     </div>
                     <div class="entry-excerpt">
                         {{ post.date_posted }}
                     </div>
+                    {% if current_user.is_authenticated %}
+                    <p><img src="/static/src/like.png" id="/like/{{post.id}}" class="like">{{ post.likes }}</p>
+                    {% else %}
+                    <p><img src="/static/src/like.png" id="/like" class="like">{{ post.likes }}</p>
+                    {% endif %}
                </div>
             </div>
         </div>
@@ -85,7 +90,15 @@
 {% endblock %}
 
 {% block scripts %}
+<script type="text/javascript" src="{{ url_for('static', filename='js/jquery-3.4.1.js') }}"></script>
 <script type="text/javascript">
-  document.querySelector('#sortable').sortablejs()
+    document.querySelector('#sortable').sortablejs()
+    $('.like').click(function() {
+        if(this.id == '/like') {
+            alert('Please login firstly.')
+        }else {
+            self.location.href = this.id;
+        }
+    });
 </script>
 {% endblock %}
