@@ -36,7 +36,6 @@ result_fake = result_real = []
 @app.route('/', methods=['GET', 'POST'])
 def index():
     if current_user.is_authenticated:
-        print(user_id)
         return redirect(url_for('homepage', nickname=current_user.username))
     return render_template('base.html')
 
@@ -49,11 +48,20 @@ def playground():
     form = PostForm()
     if form.validate_on_submit():
         title = form.title.data
-        ids = form.img.data.split(',')
+        category = form.category.data
         style = form.style.data
-        time = time.strftime('%Y-%m-%d %H:%M:%S',time.localtime(time.time()))
+        date_posted = time.strftime('%Y-%m-%d %H:%M:%S',time.localtime(time.time()))
+        ids = form.img.data.split(',')
+        imglist = ''
         for i in ids:
-            imglist = image_to_base64(result_fake[int(i)]) + ' '
+            path = './imgdata/' + str(time.time()) + '.png'
+            img = result_fake[int(i)]
+            img.save(path,'png')
+            imglist += path + ','
+        post = Post(title=title, category=category, style=style, imglist=imglist, date_posted=date_posted)
+        user = User.query.filter_by(username=current_user.username).first()
+        user.posts.append(post)
+        db.session.commit()
     return render_template('playground.html', form=form)
 
 @app.route('/signin', methods=['GET', 'POST'])
@@ -77,7 +85,7 @@ def signup():
         db.session.add(user)
         db.session.commit()
         flash('您的账号已建立','success')
-        return redirect('SignIn')
+        return redirect('signin')
     return render_template('signUp.html', title="SignUp", form=form)
 
 @app.route('/logout', methods=['GET', 'POST'])
@@ -87,7 +95,9 @@ def logout():
 
 @app.route('/homepage/<nickname>', methods=['GET', 'POST'])
 def homepage(nickname):
-    return render_template('page.html', nickname=nickname)
+    user = User.query.filter_by(username=nickname).first()
+    posts = Post.query.filter_by(user_id=user.id).order_by(Post.date_posted.desc()).all()
+    return render_template('page.html', nickname=nickname, posts=posts)
 
 @socketio.on('cav', namespace='/playground')
 def playground_message(message):

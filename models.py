@@ -25,12 +25,12 @@ class Post(db.Model):
     title = db.Column(db.String(100), nullable=False)
     category = db.Column(db.String(100), nullable=False)
     style = db.Column(db.String(10), nullable=False)
-    imgList = db.Column(db.String(25000), nullable=False)
+    imglist = db.Column(db.String(300), nullable=False)
     date_posted = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
     
-    def __repr__(self):
-        return f"Post('{self.title}','{self.date_posted}')"
+    def __repr__(self): 
+        return f"Post('{self.title}','{self.category}','{self.style}','{self.imglist}','{self.date_posted}')"
 
-db.drop_all()
-db.create_all()
+# db.drop_all()
+# db.create_all()

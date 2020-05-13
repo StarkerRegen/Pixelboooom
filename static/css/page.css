@@ -120,51 +120,33 @@ section.page {
     margin: 0px;
 }
 .sidebar .widget .widget-content {
-      float: left;
-      clear: both;
-      margin-top: 33px;
-      width: 100%;
+    float: left;
+    clear: both;
+    margin-top: 33px;
+    width: 100%;
 }
 
-/* sidebar works */
-.works-wrapper {
+.recent-post-tab {
     float: left;
     clear: both;
     width: 100%;
-    margin-right: -4px;
-    margin-bottom: -4px;
+    margin: 0px;
+    padding: 17px 0px 17px 0px;
+    border-bottom: 1px solid #ebebeb;
+}
+.recent-post-tab:first-child {
+    padding-top: 0px;
 }
 
-.works-wrapper a {
-    width: 87px;
-    height: 87px;
-    position: relative;
+.recent-post-tab span {
     float: left;
-    margin-right: 4px;
+    clear: both;
+    font-size: 14px;
+    font-weight: 600;
     margin-bottom: 4px;
-    box-shadow: none;
-    transition: box-shadow 0.4s , -webkit-box-shadow 0.4s;
-    -webkit-transition:  box-shadow 0.4s , -webkit-box-shadow 0.4s;
-    z-index: 1;
 }
 
-.works-wrapper a:hover {
-    box-shadow: inset 0px 0px 0px 6px #0078a4;
-    -webkit-box-shadow: inset 0px 0px 0px 6px #0078a4;
-}
-
-.works-wrapper a img {
-    width: auto;
-    height: auto;
-    transition: margin-top 0.2s;
-    -webkit-transition: margin-top 0.2s;
-    position: relative;
-}
-
-.works-wrapper a:hover img {
-    z-index: 0;
-    width: 75px;
-    height: 75px;
-    margin-left: 6px;
-    margin-top: 6px;
+.recent-post-tab a {
+    clear: both;
+    float: left;
 }

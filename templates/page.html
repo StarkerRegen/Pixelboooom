@@ -39,38 +39,39 @@
         <div class="row">
             <div class="col-8">   
                 <!-- post -->
+                {% for post in posts %}
                 <div class="post gallery-post">
-                    <h2 class="section-title">Everything You Can Do Right Now.</h2>
+                    <h2 class="section-title">{{ post.title }}</h2>
                     <!-- meta -->
                     <div class="meta">
-                        <p>Category: <span>Technology</span><span>Off Topic</span><span class="dash">/</span> 13 August 2013 <span class="dash">/</span> <a href="#comments">7 Comments</a></span></p>
+                        <p>Category: <span>{{ post.category }}</span><span class="dash">/</span> {{ post.date_posted }} <span class="dash">/</span> <a href="#comments">7 Comments</a></span></p>
                     </div><!-- end meta -->
                     <!-- content -->
                     <div class="post-content">
                         <div class="content">
-                            <div class="floatImage" ><img src="../static/src/blog_post_image.png" alt="Post" /></div>
+                            {% imgs = post.imglist.split(',') %}
+                            {% for img in imgs %}
+                                {% imgP = '.' + img %}
+                                <div class="floatImage" ><img src="{{ imgP }}" alt="PostImage" /></div>
+                            {% endfor %}
                             <p>Morbi accumsan ipsum velit. Nam nec tellus a odio tincidunt auctor a ornare odio. Sed non  mauris vitae erat consequat auctor eu in elit. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Etiam pharetra, erat sed fermentum feugiat, velit mauris egestas quam, ut aliquam massa nisl quis neque. Suspendisse in orci enim.</p>
                         </div><!-- end post content -->
                     </div><!-- end content -->
                 </div>
             </div>
-            <div id="sidebar" class="sidebar col-4">                                     
+            <div id="sidebar" class="sidebar col-4">   
                 <div class="widget">
-                    <h4>Latest Works</h4>
+                    <h4>Recent Post </h4>
                     <div class="widget-content">
-                        <div class="works-wrapper">
-                            <a href="portfolio-single.html"><img src="img/demo/work1.png" alt="Wrk" /></a>
-                            <a href="portfolio-single.html"><img src="img/demo/work2.png" alt="Wrk" /></a>
-                            <a href="portfolio-single.html"><img src="img/demo/work3.png" alt="Wrk" /></a>
-                            <a href="portfolio-single.html"><img src="img/demo/work4.png" alt="Wrk" /></a>
-                            <a href="portfolio-single.html"><img src="img/demo/work5.png" alt="Wrk" /></a>
-                            <a href="portfolio-single.html"><img src="img/demo/work6.png" alt="Wrk" /></a>
-                            <a href="portfolio-single.html"><img src="img/demo/work7.png" alt="Wrk" /></a>
-                            <a href="portfolio-single.html"><img src="img/demo/work8.png" alt="Wrk" /></a>
-                            <a href="portfolio-single.html"><img src="img/demo/work8.png" alt="Wrk" /></a>
-                        </div><!-- end works wrapper -->
-                    </div><!-- end widget content -->
-                </div><!-- end widget -->
+                        {% for post in posts %}
+                        <div class="recent-post-tab">
+                            <span>{{ post.date_posted }} </span>
+                            <a href="single.html">{{ post.title }}</a>
+                        </div>
+                        {% endfor %}
+                    </div>
+                    <!-- end widget content -->
+                </div>
             </div><!-- end sidebar -->
         </div><!-- end row -->
     </div>
