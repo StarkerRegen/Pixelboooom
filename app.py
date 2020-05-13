@@ -41,7 +41,8 @@ def index():
 
 @app.route('/explore', methods=['GET', 'POST'])
 def explore():
-    return render_template('explore.html')
+    posts = Post.query.all()
+    return render_template('explore.html', posts=posts)
 
 @app.route('/playground', methods=['GET', 'POST'])
 def playground():
@@ -54,11 +55,11 @@ def playground():
         ids = form.img.data.split(',')
         imglist = ''
         for i in ids:
-            path = './imgdata/' + str(time.time()) + '.png'
+            path = './static/imgdata/' + str(time.time()) + '.png'
             img = result_fake[int(i)]
             img.save(path,'png')
-            imglist += path + ','
-        post = Post(title=title, category=category, style=style, imglist=imglist, date_posted=date_posted)
+            imglist += path + ' '
+        post = Post(title=title, category=category, style=style, username=current_user.username, imglist=imglist, date_posted=date_posted)
         user = User.query.filter_by(username=current_user.username).first()
         user.posts.append(post)
         db.session.commit()

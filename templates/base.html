@@ -17,15 +17,13 @@
     <nav class="navbar navbar-expand-lg fixed-top navbar-light bg-light">
         <div class="container">
             <a class="navbar-brand" href="#">Pixelbooom!</a>
-            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarColor03" aria-controls="navbarColor03" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
             <div class="collapse navbar-collapse" id="navbarColor03">
                 {{ render_nav_item('index', 'Home') }}
                 {{ render_nav_item('explore', 'Explore') }}
+                {{ render_nav_item('playground', 'Create') }}
             </div>
             <div class="navbar-btn ml-auto">
-                <a class="btn btn-outline-primary" href="../signin" role="button">SignIn</button>
+                <a class="btn btn-outline-primary" href="../signin" role="button">SignIn</a>
                 <a class="btn btn-primary" href="../signup" role="button">SignUp</a>
             </div>
         </div>
@@ -62,7 +60,7 @@
     </div>
 
     <script type="text/javascript" src="{{ url_for('static', filename='js/jquery-3.4.1.js') }}"></script>
-    <script type="text/javascript" src="{{ url_for('static', filename='js/popper.js') }}"></script>
+<!--     <script type="text/javascript" src="{{ url_for('static', filename='js/popper.js') }}"></script> -->
     <script type="text/javascript" src="{{ url_for('static', filename='js/bootstrap.min.js') }}"></script>
     {% block scripts %}
     {% endblock %}

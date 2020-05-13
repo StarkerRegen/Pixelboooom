@@ -146,7 +146,11 @@ section.page {
     margin-bottom: 4px;
 }
 
-.recent-post-tab a {
+.recent-post-tab button {
     clear: both;
     float: left;
+}
+
+.disable {
+    display: none;
 }

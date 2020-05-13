@@ -7,15 +7,15 @@
 <script type="text/javascript" src="{{ url_for('static', filename='js/sortable.min.js') }}"></script>
 {% endblock %}
 
-{% if current_user.is_authenticated %}
 {% block nav %}
+{% if current_user.is_authenticated %}
 <header>
     <div class="background-image"></div>
     <div class="container">
         <div class="row">
             <nav class="menu">
                 <ul>
-                    <li><a class="nav-item nav-link" href="{{ url_for('homepage', nickname=current_user.username) }}">Home</a></li>
+                    <li>{{ render_nav_item('index', 'Home') }}</li>
                     <li>{{ render_nav_item('explore', 'Explore') }}</li>
                     <li>{{ render_nav_item('playground', 'Create') }}</li>
                 </ul>
@@ -30,8 +30,23 @@
         <br>
     </div>
 </header>
-{% endblock %}
+{% else %}
+<nav class="navbar navbar-expand-lg fixed-top navbar-light bg-light">
+    <div class="container">
+        <a class="navbar-brand" href="#">Pixelbooom!</a>
+        <div class="collapse navbar-collapse" id="navbarColor03">
+            {{ render_nav_item('index', 'Home') }}
+            {{ render_nav_item('explore', 'Explore') }}
+            {{ render_nav_item('playground', 'Create') }}
+        </div>
+        <div class="navbar-btn ml-auto">
+            <a class="btn btn-outline-primary" href="../signin" role="button">SignIn</a>
+            <a class="btn btn-primary" href="../signup" role="button">SignUp</a>
+        </div>
+    </div>
+</nav>
 {% endif %}
+{% endblock %}
 
 {% block content %}
 <div class="page">
@@ -41,34 +56,22 @@
         <li><a data-sjslink="funny" class="navLink">Funny</a></li>
     </ul>
     <div id="sortable" class="sjs-default">
-        <div data-sjsel="flatty">
+        {% for post in posts %}
+        <div data-sjsel="{{ post.style }}">
             <div class="article">
                 <img src="../static/1.jpg" alt="yy">
                 <div class="entry-text">
                     <div class="entry-header">
-                        <div class="entry-meta">
-                            <span class="cat-links"><a href="#">Design</a></span>         
-                        </div>
-                        <h1 class="entry-title"><a href="single-standard.html">Just a Standard Format Post.</a></h1>
+                        <h1 class="entry-title"><a href="single-standard.html">{{ post.title }}</a></h1>
+                        <p>Category: <span>{{ post.category }} </span><span class="dash">/  </span><a href="{{ url_for('homepage', nickname=post.username) }}">{{ post.username }}</a></p>
                     </div>
                     <div class="entry-excerpt">
-                        2020-05-08,Friday,21:39.
+                        {{ post.date_posted }}
                     </div>
                </div>
             </div>
         </div>
-        <div data-sjsel="flatty">
-            <div class="article">
-                <img src="../static/1.jpg" alt="yy">
-                <h2>Example 2</h2>
-            </div>
-        </div>
-        <div data-sjsel="funny">
-            <div class="article">
-                <img src="../static/2.jpg" alt="yy">
-                <h2>Example 3</h2>
-            </div>
-        </div>
+        {% endfor %}
     </div>
 </div>
 {% endblock %}

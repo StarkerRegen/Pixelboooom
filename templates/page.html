@@ -4,6 +4,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="referrer" content="no-referrer" /> 
     {% block head %}
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/bootstrap.min.css') }}">
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/page.css') }}">
@@ -16,19 +17,28 @@
             <div class="row">
                 <nav class="menu">
                     <ul>
-                        <li><a class="nav-item nav-link" href="{{ url_for('homepage', nickname=current_user.username) }}">Home</a></li>
+                        <li>{{ render_nav_item('index', 'Home') }}</li>
                         <li>{{ render_nav_item('explore', 'Explore') }}</li>
                         <li>{{ render_nav_item('playground', 'Create') }}</li>
                     </ul>
                 </nav>
+                {% if current_user.is_authenticated %}
                 <nav class="menu ml-auto">
                     {{ render_nav_item('logout', 'LogOut') }}
                 </nav>
+                {% else %}
+                <nav class="menu ml-auto">
+                    <div class="row">
+                        {{ render_nav_item('signin', 'SignIn') }}
+                        {{ render_nav_item('signup', 'SignUp') }}
+                    </div>
+                </nav>
+                {% endif %}
             </div>
             <div class="row"> 
                 <div class="teaser">
                     <h2>{{ nickname }}</h2>
-                    <p>Blogging about everything web & design</p>
+                    <p>Blogging about icon design</p>
                 </div>
             </div>
         </div>
@@ -40,24 +50,29 @@
             <div class="col-8">   
                 <!-- post -->
                 {% for post in posts %}
-                <div class="post gallery-post">
+                {% if loop.first %}
+                <div class="post gallery-post" id="{{ post.id }}">
+                {% else %}
+                <div class="post gallery-post disable" id="{{ post.id }}">
+                {% endif %}
                     <h2 class="section-title">{{ post.title }}</h2>
                     <!-- meta -->
                     <div class="meta">
-                        <p>Category: <span>{{ post.category }}</span><span class="dash">/</span> {{ post.date_posted }} <span class="dash">/</span> <a href="#comments">7 Comments</a></span></p>
+                        <p>Category: <span>{{ post.category }}</span><span class="dash">/</span> {{ post.date_posted }} <span class="dash">/</span><span><button type="button" class="btn btn-link" id="likes">Likes</button></span></p>
                     </div><!-- end meta -->
                     <!-- content -->
                     <div class="post-content">
                         <div class="content">
-                            {% imgs = post.imglist.split(',') %}
-                            {% for img in imgs %}
-                                {% imgP = '.' + img %}
-                                <div class="floatImage" ><img src="{{ imgP }}" alt="PostImage" /></div>
+                            {% for image in post.imglist|slice(post.imglist|wordcount() // 4) %}
+                            <div class="floatImage" >
+                                <img src="{{ image|join|replace('./','/') }}" alt="PostImage">
+                            </div>
                             {% endfor %}
-                            <p>Morbi accumsan ipsum velit. Nam nec tellus a odio tincidunt auctor a ornare odio. Sed non  mauris vitae erat consequat auctor eu in elit. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Etiam pharetra, erat sed fermentum feugiat, velit mauris egestas quam, ut aliquam massa nisl quis neque. Suspendisse in orci enim.</p>
+                            <!-- <p>{{ post.article }}</p> -->
                         </div><!-- end post content -->
                     </div><!-- end content -->
                 </div>
+                {% endfor %}
             </div>
             <div id="sidebar" class="sidebar col-4">   
                 <div class="widget">
@@ -66,7 +81,7 @@
                         {% for post in posts %}
                         <div class="recent-post-tab">
                             <span>{{ post.date_posted }} </span>
-                            <a href="single.html">{{ post.title }}</a>
+                            <button type="button" class="btn btn-link post-selecter" id="{{ post.id }}">{{ post.title }}</button>
                         </div>
                         {% endfor %}
                     </div>
@@ -78,6 +93,19 @@
     {% endblock %} 
     </section>
     {% block scripts %}
+    <script type="text/javascript" src="{{ url_for('static', filename='js/jquery-3.4.1.js') }}"></script>
+    <script type="text/javascript">
+        $('.post-selecter').click(function(e) {
+            let id = this.id;
+            $('.gallery-post').each(function() {
+                if(this.id == id) {
+                    $(this).removeClass('disable');
+                }else {
+                    $(this).addClass('disable');
+                }
+            });
+        });
+    </script>
     {% endblock %}
 </body>
 </html> 

@@ -25,6 +25,7 @@ class Post(db.Model):
     title = db.Column(db.String(100), nullable=False)
     category = db.Column(db.String(100), nullable=False)
     style = db.Column(db.String(10), nullable=False)
+    username = db.Column(db.String(20), unique=True, nullable=False)
     imglist = db.Column(db.String(300), nullable=False)
     date_posted = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
