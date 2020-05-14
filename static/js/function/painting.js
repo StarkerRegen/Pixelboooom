@@ -279,6 +279,9 @@ $(function(argument) {
       document.getElementById(id).src = src;
     }
   });                             // 处理服务器发送的消息
+  socket.on('submit', function(msg) {
+    alert(msg['msg']);
+  });                             // 处理服务器发送的消息
   cav = document.getElementById('sketchpad');
   if (cav.getContext){
     ctx = cav.getContext('2d');

@@ -54,7 +54,7 @@
                 {% else %}
                 <div class="post gallery-post disable" id="{{ post.id }}">
                 {% endif %}
-                    {% if current_user.is_authenticated %}
+                    {% if current_user.username is eq(nickname) %}
                     <div class="img-btn-group">
                         <img src="/static/src/edit.png" alt="edit" class="edit" id="/edit/{{ post.id }}">
                         <img src="/static/src/del.png" alt="pen" class="delete" id="/delete/{{ post.id }}">

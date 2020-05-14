@@ -1,0 +1,33 @@
+{% extends 'signIn.html' %}
+
+{% block form %}
+<h1>Reset Password</h1>
+<form method="post">
+    {{ form.csrf_token }}
+    <div class="form-group">
+        {{ form.username(class="form-control", id="userName", placeholder="Please input your username") }}  
+        {% for message in form.username.errors %}
+            <small class="error">{{ message }}</small>
+        {% endfor %}
+    </div>
+    <div class="form-group">
+        {{ form.email(class="form-control", id="exampleInputEmail1", placeholder="Please input your email") }}
+        {% for message in form.email.errors %}
+            <small class="error">{{ message }}</small>
+        {% endfor %}
+    </div>
+    <div class="form-group">
+        {{ form.password(class="form-control", id="exampleInputPassword1", placeholder="New password（Combination of 8-16 letters and numbers）") }}
+        {% for message in form.password.errors %}
+            <small class="error">{{ message }}</small>
+        {% endfor %}
+    </div>
+    <div class="form-group">
+        {{ form.password_c(class="form-control", id="exampleInputPassword2", placeholder="Confirm the new password") }}
+        {% for message in form.password_c.errors %}
+            <small class="error">{{ message }}</small>
+        {% endfor %}
+    </div>
+    {{ form.submit(class="btn btn-lg btn-block btn-success")}}
+</form>
+{% endblock %}

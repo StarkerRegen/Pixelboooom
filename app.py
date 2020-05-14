@@ -27,7 +27,7 @@ login_manager = LoginManager(app)
 login_manager.login_view = 'login'
 login_manager.login_message_category = 'info'
 
-from forms import SigninForm, SignupForm, PostForm, EditForm
+from forms import SigninForm, SignupForm, PostForm, EditForm, ResetForm
 from models import User, Post
 
 model = forwardModel()
@@ -64,6 +64,7 @@ def playground():
         user = User.query.filter_by(username=current_user.username).first()
         user.posts.append(post)
         db.session.commit()
+        socketio.emit('submit', {"msg": "Submit success"}, namespace='/playground')
     return render_template('playground.html', form=form)
 
 @app.route('/signin', methods=['GET', 'POST'])
@@ -86,9 +87,22 @@ def signup():
         user = User(username=form.username.data, email=form.email.data, password=hashed_password)
         db.session.add(user)
         db.session.commit()
-        flash('您的账号已建立','success')
         return redirect('signin')
     return render_template('signUp.html', title="SignUp", form=form)
+
+@app.route('/resetpasswd', methods=['GET', 'POST'])
+def resetpasswd():
+    form = ResetForm()
+    if form.validate_on_submit():
+        user = User.query.filter_by(email=form.email.data).first()
+        if user and user.username==form.username.data:
+            hashed_password = bcrypt.generate_password_hash(form.password.data).decode('utf-8')
+            user.password = hashed_password
+            db.session.commit()
+            return redirect('signin')
+        else:
+            flash('Authentication failed: username does not match email','danger')
+    return render_template('forget.html', title="ResetPasswd", form=form)
 
 @app.route('/logout', methods=['GET', 'POST'])
 def logout():
