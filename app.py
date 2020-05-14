@@ -7,6 +7,7 @@ from flask_bcrypt import Bcrypt
 
 import config
 import time
+import math
 import torch
 import numpy as np
 import base64
@@ -56,7 +57,7 @@ def playground():
         ids = form.img.data.split(',')
         imglist = ''
         for i in ids:
-            path = './static/imgdata/' + str(time.time()) + '.png'
+            path = './static/imgdata/' + str(int(time.time()*math.pow(10,6))) + '.png'
             img = result_fake[int(i)%10]
             img.save(path,'png')
             imglist += path + ' '
