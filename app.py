@@ -132,7 +132,7 @@ def delete(postid):
     post = Post.query.get(postid)
     db.session.delete(post)
     db.session.commit()
-    return redirect(url_for('explore'))
+    return redirect(url_for('homepage', nickname=current_user.username))
 
 @app.route('/like/<postid>', methods=['GET', 'POST'])
 def like(postid):
